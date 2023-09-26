@@ -6,11 +6,12 @@
 
         <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
     </head>
-    <body class="antialiased">
+    <body>
+        <div id="app">
+            <index></index>
+        </div>
     </body>
 </html>
+<script src="{{ mix('js/app.js') }}"></script>
+
