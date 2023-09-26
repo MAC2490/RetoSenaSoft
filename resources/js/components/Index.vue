@@ -4,8 +4,8 @@
 			<form>
 				
 				<input type="file" @change="CapturarInformacion">
-				<button type="button" @click="mostrarGrafo()">Mostrar</button>
-				<svg ref="graphContainer" width="400" height="400"></svg>
+				<button type="button" @click="mostrarGrafo(lista_datos)">Mostrar</button>
+				<svg id="grafo" width="1000" height="1000"></svg>
 			</form>
 		</div>
 	</section>
@@ -16,11 +16,16 @@
 
 	export default{
 		components: {
+			lista_datos: '',
 		},
 		data(){
 			return{
-				jsonData: null,
+				datosDePrueba: null,
+
 			};
+		},
+		mounted(){
+			// this.cargarDatosDesdeJson();
 		},
 		methods:{
 			CapturarInformacion(event){
@@ -30,8 +35,10 @@
 
 					reader.onload = () => {
 						try{
-							this.jsonData = JSON.parse(reader.result);
-							console.log("Datos del archivo JSON: ", this.jsonData);
+							this.datosDePrueba = JSON.parse(reader.result);
+							console.log("Datos del archivo JSON: ", this.datosDePrueba);
+							this.lista_datos = this.datosDePrueba;
+							// console.log("Datos del archivo JSON: ", this.lista_datos);
 						}catch(error){
 							console.error('Error en JSON', error);
 						}
@@ -40,49 +47,85 @@
 					reader.readAsText(file);
 				}
 			},
-			mostrarGrafo(){
-				const data = this.jsonData;
+			mostrarGrafo(lista_datos){
+				console.log(this.datosDePrueba);
+				console.log("joker");
+				if(this.datosDePrueba){
 
-			    for (const key in this.jsonData) {
-			      if (this.jsonData.hasOwnProperty(key)) {
-			        dataArray.push({
-			          key: key,
-			          value: this.jsonData[key]
-			        });
-			      }
-			    }
+					console.log('Entro en mostrar grafo');
+					console.log('Datos antes de la creación del gráfico:', lista_datos);
+					const svg = d3.select('#grafo');
 
-				const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-    			const width = 400 - margin.left - margin.right;
-    			const height = 300 - margin.top - margin.bottom;
+					
+					const simulation = d3.forceSimulation(lista_datos.data.nodos)
+					  .force('charge', d3.forceManyBody().strength(-100))
+					  .force('link', d3.forceLink(lista_datos.data.enlaces).id(d => d.id).distance(100))
+					  .force('center', d3.forceCenter(250, 150));
+					// Crea los enlaces
+					const enlaces = svg.selectAll('line')
+					  .data(lista_datos.data.enlaces)
+					  .enter()
+					  .append('line')
+					  .attr('stroke', 'gray');
+					console.log(lista_datos)
+					// Crea los nodos
+					const nodos = svg.selectAll('circle')
+					  .data(lista_datos.data.nodos)
+					  .enter()
+					  .append('circle')
+					  .attr('r', 20)
+					  .attr('fill', 'blue');
+					
+					// Agrega eventos de arrastre a los nodos
+					nodos.call(d3.drag()
+					  .on('start', dragStarted)
+					  .on('drag', dragged)
+					  .on('end', dragEnded)
+					);
+					
 
-    			const svg = d3
-      			.select('#chart-container')
-      			.append('svg')
-      			.attr('width', width + margin.left + margin.right)
-      			.attr('height', height + margin.top + margin.bottom)
-      			.append('g')
-      			.attr('transform', `translate(${margin.left},${margin.top})`);
+					// Actualiza la posición de los elementos en cada iteración de la simulación
+					simulation.on('tick', () => {
+					  enlaces
+					    .attr('x1', d => d.source.x)
+					    .attr('y1', d => d.source.y)
+					    .attr('x2', d => d.target.x)
+					    .attr('y2', d => d.target.y);
+					
+					  nodos
+					    .attr('cx', d => d.x)
+					    .attr('cy', d => d.y);
+					});
+					
+					// Funciones para el arrastre de nodos
+					function dragStarted(event, d) {
+					  if (!event.active) simulation.alphaTarget(0.3).restart();
+					  d.fx = d.x;
+					  d.fy = d.y;
+					}
+					
+					function dragged(event, d) {
+					  d.fx = event.x;
+					  d.fy = event.y;
+					}
+					
+					function dragEnded(event, d) {
+					  if (!event.active) simulation.alphaTarget(0);
+					  d.fx = null;
+					  d.fy = null;
+					}
+				}else{
+					console.warn('Los datos desde JSON no han sido cargados');
+				}
 
-      			
-      			const x = d3.scaleBand().range([0, width]).domain(dataArray.map((d, i) => i));
-    			const y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(dataArray)]);
-      			
-
-      			
-
-    			svg
-      			.selectAll('.bar')
-      			.data(dataArray)
-      			.enter()
-      			.append('rect')
-      			.attr('class', 'bar')
-      			.attr('x', (d, i) => x(i))
-      			.attr('y', (d) => y(d))
-      			.attr('width', x.bandwidth())
-      			.attr('height', (d) => height - y(d));
-
-			}
+			},
+			// cargarDatosDesdeJson(){
+			// 	fetch('ubicaciones.json')
+			// 		.then(response => response.json())
+			// 		.then(data => {
+			// 			this.datosDesdeJson = data;
+			// 		});
+			// }
 		}
 	}
 
