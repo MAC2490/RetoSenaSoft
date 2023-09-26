@@ -2,74 +2,89 @@
     "data": {
         "ubicaciones": [
             {
-                "nombre": "A",
+                "id": "A",
                 "posX": 20,
-                "posY": 20
+                "posY": 20,
+                "label": "Nodo A"
+
             },
             {
                 "nombre": "B",
                 "posX": 45,
-                "posY": 60
+                "posY": 60,
+                "label": "Nodo B"
             },
             {
                 "nombre": "C",
                 "posX": 79,
-                "posY": 90
+                "posY": 90,
+                "label": "Nodo C"
             },
             {
                 "nombre": "D",
                 "posX": 56,
-                "posY": 79
+                "posY": 79,
+                "label": "Nodo D"
             },
             {
                 "nombre": "E",
                 "posX": 30,
-                "posY": 40
+                "posY": 40,
+                "label": "Nodo E"
             },
             {
                 "nombre": "F",
                 "posX": 70,
-                "posY": 30
+                "posY": 30,
+                "label": "Nodo F"
             },
             {
                 "nombre": "G",
                 "posX": 10,
-                "posY": 10
+                "posY": 10,
+                "label": "Nodo G"
             },
             {
                 "nombre": "H",
                 "posX": 90,
-                "posY": 90
+                "posY": 90,
+                "label": "Nodo H"
             },
             {
                 "nombre": "I",
                 "posX": 15,
-                "posY": 75
+                "posY": 75,
+                "label": "Nodo I"
             },
             {
                 "nombre": "J",
                 "posX": 50,
-                "posY": 10
+                "posY": 10,
+                "label": "Nodo J"
             },
             {
                 "nombre": "K",
                 "posX": 80,
-                "posY": 45
+                "posY": 45,
+                "label": "Nodo K"
             },
             {
                 "nombre": "L",
                 "posX": 35,
-                "posY": 70
+                "posY": 70,
+                "label": "Nodo L"
             },
             {
                 "nombre": "M",
                 "posX": 65,
-                "posY": 25
+                "posY": 25,
+                "label": "Nodo M"
             },
             {
                 "nombre": "N",
                 "posX": 5,
-                "posY": 55
+                "posY": 55,
+                "label": "Nodo N"
             }
         ]
     }

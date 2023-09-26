@@ -19,10 +19,12 @@
         "sass": "^1.67.0",
         "sass-loader": "^12.1.0",
         "vue": "^2.6.12",
-        "vue-loader": "^15.9.8",
-        "vue-template-compiler": "^2.7.14"
+        "vue-loader": "^15.10.2",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "vue-json-csv": "^2.1.0"
+        "d3": "^7.8.5",
+        "vue-cytoscape": "^1.0.8",
+        "vue-json-csv": "^1.2.12"
     }
 }
