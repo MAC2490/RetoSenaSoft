@@ -2183,11 +2183,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {},
+  components: {
+    lista_datos: ''
+  },
   data: function data() {
     return {
-      jsonData: null
+      datosDePrueba: null
     };
+  },
+  mounted: function mounted() {
+    // this.cargarDatosDesdeJson();
   },
   methods: {
     CapturarInformacion: function CapturarInformacion(event) {
@@ -2197,8 +2202,10 @@ __webpack_require__.r(__webpack_exports__);
         var reader = new FileReader();
         reader.onload = function () {
           try {
-            _this.jsonData = JSON.parse(reader.result);
-            console.log("Datos del archivo JSON: ", _this.jsonData);
+            _this.datosDePrueba = JSON.parse(reader.result);
+            console.log("Datos del archivo JSON: ", _this.datosDePrueba);
+            _this.lista_datos = _this.datosDePrueba;
+            // console.log("Datos del archivo JSON: ", this.lista_datos);
           } catch (error) {
             console.error('Error en JSON', error);
           }
@@ -2206,37 +2213,67 @@ __webpack_require__.r(__webpack_exports__);
         reader.readAsText(file);
       }
     },
-    mostrarGrafo: function mostrarGrafo() {
-      var data = this.jsonData;
-      for (var key in this.jsonData) {
-        if (this.jsonData.hasOwnProperty(key)) {
-          dataArray.push({
-            key: key,
-            value: this.jsonData[key]
+    mostrarGrafo: function mostrarGrafo(lista_datos) {
+      console.log(this.datosDePrueba);
+      console.log("joker");
+      if (this.datosDePrueba) {
+        // Funciones para el arrastre de nodos
+        var dragStarted = function dragStarted(event, d) {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        };
+        var dragged = function dragged(event, d) {
+          d.fx = event.x;
+          d.fy = event.y;
+        };
+        var dragEnded = function dragEnded(event, d) {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        };
+        console.log('Entro en mostrar grafo');
+        console.log('Datos antes de la creación del gráfico:', lista_datos);
+        var svg = d3__WEBPACK_IMPORTED_MODULE_0__.select('#grafo');
+        var simulation = d3__WEBPACK_IMPORTED_MODULE_0__.forceSimulation(lista_datos.data.nodos).force('charge', d3__WEBPACK_IMPORTED_MODULE_0__.forceManyBody().strength(-100)).force('link', d3__WEBPACK_IMPORTED_MODULE_0__.forceLink(lista_datos.data.enlaces).id(function (d) {
+          return d.id;
+        }).distance(100)).force('center', d3__WEBPACK_IMPORTED_MODULE_0__.forceCenter(250, 150));
+        // Crea los enlaces
+        var enlaces = svg.selectAll('line').data(lista_datos.data.enlaces).enter().append('line').attr('stroke', 'gray');
+        console.log(lista_datos);
+        // Crea los nodos
+        var nodos = svg.selectAll('circle').data(lista_datos.data.nodos).enter().append('circle').attr('r', 20).attr('fill', 'blue');
+
+        // Agrega eventos de arrastre a los nodos
+        nodos.call(d3__WEBPACK_IMPORTED_MODULE_0__.drag().on('start', dragStarted).on('drag', dragged).on('end', dragEnded));
+
+        // Actualiza la posición de los elementos en cada iteración de la simulación
+        simulation.on('tick', function () {
+          enlaces.attr('x1', function (d) {
+            return d.source.x;
+          }).attr('y1', function (d) {
+            return d.source.y;
+          }).attr('x2', function (d) {
+            return d.target.x;
+          }).attr('y2', function (d) {
+            return d.target.y;
           });
-        }
+          nodos.attr('cx', function (d) {
+            return d.x;
+          }).attr('cy', function (d) {
+            return d.y;
+          });
+        });
+      } else {
+        console.warn('Los datos desde JSON no han sido cargados');
       }
-      var margin = {
-        top: 20,
-        right: 30,
-        bottom: 40,
-        left: 40
-      };
-      var width = 400 - margin.left - margin.right;
-      var height = 300 - margin.top - margin.bottom;
-      var svg = d3__WEBPACK_IMPORTED_MODULE_0__.select('#chart-container').append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', "translate(".concat(margin.left, ",").concat(margin.top, ")"));
-      var x = d3__WEBPACK_IMPORTED_MODULE_0__.scaleBand().range([0, width]).domain(dataArray.map(function (d, i) {
-        return i;
-      }));
-      var y = d3__WEBPACK_IMPORTED_MODULE_0__.scaleLinear().range([height, 0]).domain([0, d3__WEBPACK_IMPORTED_MODULE_0__.max(dataArray)]);
-      svg.selectAll('.bar').data(dataArray).enter().append('rect').attr('class', 'bar').attr('x', function (d, i) {
-        return x(i);
-      }).attr('y', function (d) {
-        return y(d);
-      }).attr('width', x.bandwidth()).attr('height', function (d) {
-        return height - y(d);
-      });
-    }
+    } // cargarDatosDesdeJson(){
+    // 	fetch('ubicaciones.json')
+    // 		.then(response => response.json())
+    // 		.then(data => {
+    // 			this.datosDesdeJson = data;
+    // 		});
+    // }
   }
 });
 
@@ -19835,17 +19872,14 @@ var render = function () {
             attrs: { type: "button" },
             on: {
               click: function ($event) {
-                return _vm.mostrarGrafo()
+                return _vm.mostrarGrafo(_vm.lista_datos)
               },
             },
           },
           [_vm._v("Mostrar")]
         ),
         _vm._v(" "),
-        _c("svg", {
-          ref: "graphContainer",
-          attrs: { width: "400", height: "400" },
-        }),
+        _c("svg", { attrs: { id: "grafo", width: "1000", height: "1000" } }),
       ]),
     ]),
   ])
