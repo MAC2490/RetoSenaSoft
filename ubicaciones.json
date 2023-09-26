@@ -1,0 +1,76 @@
+{
+    "data": {
+        "ubicaciones": [
+            {
+                "nombre": "A",
+                "posX": 20,
+                "posY": 20
+            },
+            {
+                "nombre": "B",
+                "posX": 45,
+                "posY": 60
+            },
+            {
+                "nombre": "C",
+                "posX": 79,
+                "posY": 90
+            },
+            {
+                "nombre": "D",
+                "posX": 56,
+                "posY": 79
+            },
+            {
+                "nombre": "E",
+                "posX": 30,
+                "posY": 40
+            },
+            {
+                "nombre": "F",
+                "posX": 70,
+                "posY": 30
+            },
+            {
+                "nombre": "G",
+                "posX": 10,
+                "posY": 10
+            },
+            {
+                "nombre": "H",
+                "posX": 90,
+                "posY": 90
+            },
+            {
+                "nombre": "I",
+                "posX": 15,
+                "posY": 75
+            },
+            {
+                "nombre": "J",
+                "posX": 50,
+                "posY": 10
+            },
+            {
+                "nombre": "K",
+                "posX": 80,
+                "posY": 45
+            },
+            {
+                "nombre": "L",
+                "posX": 35,
+                "posY": 70
+            },
+            {
+                "nombre": "M",
+                "posX": 65,
+                "posY": 25
+            },
+            {
+                "nombre": "N",
+                "posX": 5,
+                "posY": 55
+            }
+        ]
+    }
+}
