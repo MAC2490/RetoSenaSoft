@@ -16,8 +16,6 @@ use App\Http\Controllers\CargaDatosController;
 
 Route::get('/', function () {return view('welcome');});
 
-<<<<<<< HEAD
-Route::get('/CargaDatos', [CargaDatosController::class, 'index'] );
-=======
->>>>>>> origin/dev2
+
+
 Route::get('/RegistroRutas', [RutasController::class, 'index'] );
