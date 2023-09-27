@@ -6,6 +6,7 @@ import Vue from 'vue';
 window.Vue = require('vue');
 
 //Lista de componentes
+Vue.component('login', require('./components/Login.vue').default);
 
 Vue.component('index-modulo', require('./components/IndexModulos.vue').default);
 Vue.component('index-registro-rutas', require('./components/RegistroRutas/Index.vue').default);

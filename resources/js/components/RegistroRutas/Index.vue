@@ -15,7 +15,6 @@
 		<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
 			<rutas-component :rutas="rutasCargadas"></rutas-component>
 		</div>
-
 	</div>
 </template>
 <script>

@@ -19,7 +19,7 @@
 					</select>
 				</div>
 				<div class="col-auto">
-					<button class="btn btn-primary">CALCULAR</button>
+					<button class="btn btn-primary" id="botonCalcular" data-bs-target="#modalCalcular" data-bs-toggle="modal" @click="calcularDistancias(grafoJSON)">CALCULAR</button>
 				</div>
 			</div>
 
@@ -31,9 +31,11 @@
 						</div>
 						<div class="col text-end">
 							<button v-if="false" class="btn btn-primary py-1">CREAR</button>
+
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
+						<button type="button" @click="mostrar()">Mostrar arreglo</button>
 						<table class="table table-bordered">
 							<thead>
 								<tr class="bg-primary text-light">
@@ -97,6 +99,30 @@
 
 
 
+
+
+		<!-- Modal -->
+	<div class="modal fade" id="modalCalcular" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+			    <div class="modal-header">
+			        <h1 class="modal-title fs-5" id="exampleModalLabel">Calculo de conexión más corta</h1>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			    </div>
+			    <div class="modal-body">
+		        
+		      	</div>
+		      	<div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button>
+		      	</div>
+		    </div>
+		</div>
+	</div>
+
+
+
+
 	</div>
 </template>
 <script>
@@ -108,12 +134,106 @@
 		data(){
 			return{
 				ruta_selected: {},
+				nodoInicio: null,
+				grafoJSON : {
+  					"ubicaciones": ["A", "B", "C", "D", "E"],
+  					"conexiones": [
+    					{ "origen": "A", "destino": "C", "peso": "3"},
+    					{ "origen": "B", "destino": "C", "peso": "4"},
+    					{ "origen": "B", "destino": "D" , "peso": "5"},
+    					{ "origen": "A", "destino": "B", "peso": "1"},
+    					{ "origen": "C", "destino": "D", "peso": "7"},
+    					{ "origen": "C", "destino": "E", "peso": "9"},
+    					{ "origen": "E", "destino": "D", "peso": "2"}
+					  ]
+					},
 			};
 		},
 		created(){
 			this.ruta_selected = this.ruta;
 		},
 		methods:{
+			calcularDistancias(grafoJSON){
+				this.nodoInicio = this.ruta_selected.inicio;
+				console.log(grafoJSON);
+				const ubicaciones = this.grafoJSON.ubicaciones;
+				const conexiones = this.grafoJSON.conexiones;
+
+				const distanciasMinimas = {};
+
+
+
+				ubicaciones.forEach(ubicacion => {
+					distanciasMinimas[ubicacion] = Infinity;
+				});
+
+				distanciasMinimas[this.nodoInicio];
+
+				const previos = {};
+
+				ubicaciones.forEach( ubicacion => {
+					previos[ubicacion] = null;
+				});
+
+				function encontrarUbicacionMinima(noVisitados){
+					let nodoMinimo = null;
+					noVisitados.forEach(ubicacion => {
+						if(nodoMinimo == null || distanciasMinimas[ubicacion] < distanciasMinimas[nodoMinimo]){
+							nodoMinimo = ubicacion;
+						}
+					});
+					return nodoMinimo;
+				}
+
+				const nodosNoVisitados = [...ubicaciones];
+
+				while (nodosNoVisitados.length > 0) {
+				    // Encuentra el nodo con la distancia mínima no visitada
+				    const nodoActual = encontrarUbicacionMinima(nodosNoVisitados);
+
+				    // Elimina el nodo actual de la lista de nodos no visitados
+				    nodosNoVisitados.splice(nodosNoVisitados.indexOf(nodoActual), 1);
+
+				    // Encuentra las conexiones del nodo actual
+				    const conexionesNodoActual = conexiones.filter(conexion => conexion.origen === nodoActual);
+
+				    conexionesNodoActual.forEach(conexion => {
+				      const distanciaTotal = distanciasMinimas[nodoActual] + parseInt(conexion.peso);
+
+				      if (distanciaTotal < distanciasMinimas[conexion.destino]) {
+				        distanciasMinimas[conexion.destino] = distanciaTotal;
+				        previos[conexion.destino] = nodoActual;
+      					}	
+    				});
+  				}
+
+  				const resultados = {
+				    distanciasMinimas: distanciasMinimas,
+				    rutas: {}
+			  	};
+
+			  	ubicaciones.forEach(ubicacion => {
+				    if (ubicacion !== this.nodoInicio) {
+				      const ruta = [];
+				      let nodoActual = ubicacion;
+
+				      while (nodoActual !== null) {
+				        ruta.unshift(nodoActual);
+				        nodoActual = previos[nodoActual];
+				      }
+
+				      resultados.rutas[ubicacion] = ruta;
+				    }
+				  });
+
+				  return resultados;
+
+				  console.log("Distancias minimas: ", resultados.distanciasMinimas);
+				  console.log("Rutas: ", resultados.rutas );
+			},
+			mostrar(){
+				console.log(this.ruta_selected.inicio);
+			}
 			
 		}
 	}

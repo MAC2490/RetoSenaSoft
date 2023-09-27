@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nodos', function (Blueprint $table) {
+        Schema::create('conexiones', function (Blueprint $table) {
             $table->id();
+            $table->string("ubicacion1");
+            $table->string("ubicacion2");
+
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nodos');
+        Schema::dropIfExists('conexiones');
     }
 };
