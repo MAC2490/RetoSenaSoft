@@ -2,7 +2,6 @@
 	<section>
 		<div>
 			<form>
-				
 				<input type="file" @change="CapturarInformacion">
 				<button type="button" @click="mostrarGrafo(lista_datos)">Mostrar</button>
 				<svg id="grafo" width="1000" height="1000"></svg>
