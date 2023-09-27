@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ubicaciones', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('ruta_id');
-            $table->string('posX');
-            $table->string('posY');
-            $table->string('nombre');
+        Schema::create('rutas', function (Blueprint $table) {
+            $table->id('id');
+            $table->unsignedInteger('user_id');
+            $table->string('nombre_ruta');
             $table->timestamps();
-            $table->foreign('ruta_id')->references('id')->on('rutas')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ubicaciones');
+        Schema::dropIfExists('rutas');
     }
 };
