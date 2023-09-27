@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
-			<rutas-component :rutas="rutasCargadas"></rutas-component>
+			<rutas-component v-if="verRutas" :rutas="ruta"></rutas-component>
 		</div>
 
 	</div>
@@ -23,6 +23,8 @@
 	export default{
 		components: {
 			'rutas-component': RutasComponent,
+			verRutas: true,
+			ruta: '',
 		},
 		data(){
 			return{
@@ -34,7 +36,21 @@
 		},
 		methods:{
 			guardar_ruta(){
-				axios.post('/guardar_ruta')
+				const rutas = this.nombreRuta;
+				if (rutas!=null) {
+					axios.post('/guardar_ruta',{rutas}).then(res => {
+						console.log("Respuesta del servidor");
+						console.log(res.data);
+						this.verRutas = false;
+						this.ruta = res.data;
+					}).catch(error => {
+						console.log("Erro en axios");
+						console.log(error);
+						console.log(error.response);
+					});	
+				}else{
+					
+				}
 			}
 		}
 	}
