@@ -43,11 +43,10 @@
 					axios.post('/guardar_ruta',{rutas}).then(res => {
 						console.log("Respuesta del servidor");
 						console.log(res.data);
-						this.verRutas = false;
 						this.ruta = res.data;
 						this.nombreRuta = "";
 					}).catch(error => {
-						console.log("Erro en axios");
+						console.log("Error en axios");
 						console.log(error);
 						console.log(error.response);
 					});	

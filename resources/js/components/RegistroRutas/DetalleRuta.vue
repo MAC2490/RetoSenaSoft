@@ -45,8 +45,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(ubicacion, index) in ruta_selected.ubicaciones">
-									<td>{{ (index+1) }}</td>
+								<tr v-for="ubicacion in listaUbicaciones">
+									<td>{{ ubicacion.id }}</td>
 									<td>{{ ubicacion.nombre }}</td>
 									<td>{{ ubicacion.posX }}</td>
 									<td>{{ ubicacion.posY }}</td>
@@ -79,8 +79,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(conexion, index) in ruta_selected.conexiones">
-									<td>{{ (index+1) }}</td>
+								<tr v-for="conexion in listaConexiones">
+									<td>{{ conexion.id }}</td>
 									<td>{{ conexion.ubicacion1 }}</td>
 									<td>{{ conexion.ubicacion2 }}</td>
 									<td>{{ conexion.peso }}</td>
@@ -167,16 +167,16 @@
 							<div class="modal-body">
 								<div>
 									<div class="mb-3">
-										<label for="nombreUbicacion" class="form-label">Nombre de la ruta</label>
-										<input v-model="nombreUbicacion" type="email" class="form-control" id="nombreUbicacion">
+										<label for="nombreUbicacion" class="form-label">Nombre de la ubicación</label>
+										<input v-model="ubicacionModificar.nombre" type="text" class="form-control" id="nombreUbicacion">
 									</div>
 									<div class="mb-3">
 										<label for="posX" class="form-label">Pos X</label>
-										<input v-model="posXModificar" type="email" class="form-control" id="posXModificar">
+										<input v-model="ubicacionModificar.posX" type="number" class="form-control" id="posXModificar">
 									</div>
 									<div class="mb-3">
 										<label for="posY" class="form-label">Pos Y</label>
-										<input v-model="posYModificar" type="email" class="form-control" id="posYModificar">
+										<input v-model="ubicacionModificar.posY" type="number" class="form-control" id="posYModificar">
 									</div>
 								</div>
 							</div>
@@ -203,6 +203,8 @@
 		data(){
 			return{
 				ruta_selected: {},
+				listaUbicaciones: [],
+				listaConexiones: [],
 				// data de se la ubicacion
 				nombre_ruta: '',
 				posX: '',
@@ -211,10 +213,18 @@
 				ubicacion1: '',
 				ubicacion2: '',
 				peso: '',
+
+				//data de modificar ubicaciones
+				ubicacionModificar : '',
+				posXModificar : '',
+				posYModificar : '',
+
 			};
 		},
 		created(){
 			this.ruta_selected = this.ruta;
+			this.cargarUbicaciones();
+			this.cargarConexiones();
 		},
 		methods:{
 			registrar_ubicacion(){
@@ -232,6 +242,34 @@
 					console.log( error );
 					console.log( error.response );
 				});
+			},
+			mostrarDatosUbicacion(ubicacion){
+				this.ubicacionModificar = ubicacion;
+			},
+			cargarUbicaciones(){
+				axios.get('/cargarUbicaciones').then(resp =>{
+					console.log('Datos cargados');
+					console.log(resp.data);
+					this.listaUbicaciones = resp.data.ubicacion;
+				}).catch(error=>{
+					console.log("No se cargaron los datos");
+					console.log(error);
+					console.log(error.response);
+				})
+			},
+			cargarConexiones(){
+				axios.get('/cargarConexiones').then(resp =>{
+					console.log('Datos cargados');
+					console.log(resp.data.conexion);
+					this.listaConexiones = resp.data.conexion;
+				}).catch(error=>{
+					console.log("No se cargaron los datos");
+					console.log(error);
+					console.log(error.response);
+				})
+					
+
+				
 			}
 		}
 	}

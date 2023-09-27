@@ -2167,12 +2167,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 //
 //
 //
@@ -2344,77 +2338,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   created: function created() {
     this.ruta_selected = this.ruta;
   },
-  methods: {
-    calcularDistancias: function calcularDistancias(grafoJSON) {
-      var _this = this;
-      this.nodoInicio = this.ruta_selected.inicio;
-      console.log(grafoJSON);
-      var ubicaciones = this.grafoJSON.ubicaciones;
-      var conexiones = this.grafoJSON.conexiones;
-      var distanciasMinimas = {};
-      ubicaciones.forEach(function (ubicacion) {
-        distanciasMinimas[ubicacion] = Infinity;
-      });
-      distanciasMinimas[this.nodoInicio];
-      var previos = {};
-      ubicaciones.forEach(function (ubicacion) {
-        previos[ubicacion] = null;
-      });
-      function encontrarUbicacionMinima(noVisitados) {
-        var nodoMinimo = null;
-        noVisitados.forEach(function (ubicacion) {
-          if (nodoMinimo == null || distanciasMinimas[ubicacion] < distanciasMinimas[nodoMinimo]) {
-            nodoMinimo = ubicacion;
-          }
-        });
-        return nodoMinimo;
-      }
-      var nodosNoVisitados = _toConsumableArray(ubicaciones);
-      var _loop = function _loop() {
-        // Encuentra el nodo con la distancia mínima no visitada
-        var nodoActual = encontrarUbicacionMinima(nodosNoVisitados);
-
-        // Elimina el nodo actual de la lista de nodos no visitados
-        nodosNoVisitados.splice(nodosNoVisitados.indexOf(nodoActual), 1);
-
-        // Encuentra las conexiones del nodo actual
-        var conexionesNodoActual = conexiones.filter(function (conexion) {
-          return conexion.origen === nodoActual;
-        });
-        conexionesNodoActual.forEach(function (conexion) {
-          var distanciaTotal = distanciasMinimas[nodoActual] + parseInt(conexion.peso);
-          if (distanciaTotal < distanciasMinimas[conexion.destino]) {
-            distanciasMinimas[conexion.destino] = distanciaTotal;
-            previos[conexion.destino] = nodoActual;
-          }
-        });
-      };
-      while (nodosNoVisitados.length > 0) {
-        _loop();
-      }
-      var resultados = {
-        distanciasMinimas: distanciasMinimas,
-        rutas: {}
-      };
-      ubicaciones.forEach(function (ubicacion) {
-        if (ubicacion !== _this.nodoInicio) {
-          var ruta = [];
-          var nodoActual = ubicacion;
-          while (nodoActual !== null) {
-            ruta.unshift(nodoActual);
-            nodoActual = previos[nodoActual];
-          }
-          resultados.rutas[ubicacion] = ruta;
-        }
-      });
-      return resultados;
-      console.log("Distancias minimas: ", resultados.distanciasMinimas);
-      console.log("Rutas: ", resultados.rutas);
-    },
-    mostrar: function mostrar() {
-      console.log(this.ruta_selected.inicio);
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -2711,16 +2635,16 @@ __webpack_require__.r(__webpack_exports__);
           d.fy = null;
         };
         console.log('Entro en mostrar grafo');
-        console.log('Datos antes de la creación del gráfico:', lista_datos);
+        console.log('Datos antes de la creación del gráfico:', lista_datos.enlaces);
         var svg = d3__WEBPACK_IMPORTED_MODULE_0__.select('#grafo');
-        var simulation = d3__WEBPACK_IMPORTED_MODULE_0__.forceSimulation(lista_datos.data.nodos).force('charge', d3__WEBPACK_IMPORTED_MODULE_0__.forceManyBody().strength(-100)).force('link', d3__WEBPACK_IMPORTED_MODULE_0__.forceLink(lista_datos.data.enlaces).id(function (d) {
+        var simulation = d3__WEBPACK_IMPORTED_MODULE_0__.forceSimulation(lista_datos.ubicaciones).force('charge', d3__WEBPACK_IMPORTED_MODULE_0__.forceManyBody().strength(-100)).force('link', d3__WEBPACK_IMPORTED_MODULE_0__.forceLink(lista_datos.conexiones).id(function (d) {
           return d.id;
         }).distance(100)).force('center', d3__WEBPACK_IMPORTED_MODULE_0__.forceCenter(250, 150));
         // Crea los enlaces
-        var enlaces = svg.selectAll('line').data(lista_datos.data.enlaces).enter().append('line').attr('stroke', 'gray');
+        var enlaces = svg.selectAll('line').data(lista_datos.conexiones).enter().append('line').attr('stroke', 'gray');
         console.log(lista_datos);
         // Crea los nodos
-        var nodos = svg.selectAll('circle').data(lista_datos.data.nodos).enter().append('circle').attr('r', 20).attr('fill', 'blue');
+        var nodos = svg.selectAll('circle').data(lista_datos.ubicaciones).enter().append('circle').attr('r', 20).attr('fill', 'red');
 
         // Agrega eventos de arrastre a los nodos
         nodos.call(d3__WEBPACK_IMPORTED_MODULE_0__.drag().on('start', dragStarted).on('drag', dragged).on('end', dragEnded));
@@ -2768,6 +2692,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue */ "./resources/js/components/Index.vue");
+//
+//
+//
 //
 //
 //
@@ -2781,8 +2709,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {},
+  components: {
+    'vista-grafo': _Index_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {};
   },
@@ -3006,6 +2937,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       ruta_selected: {},
+      listaUbicaciones: [],
+      listaConexiones: [],
       // data de se la ubicacion
       nombre_ruta: '',
       posX: '',
@@ -3013,11 +2946,17 @@ __webpack_require__.r(__webpack_exports__);
       // data de las conexiones
       ubicacion1: '',
       ubicacion2: '',
-      peso: ''
+      peso: '',
+      //data de modificar ubicaciones
+      ubicacionModificar: '',
+      posXModificar: '',
+      posYModificar: ''
     };
   },
   created: function created() {
     this.ruta_selected = this.ruta;
+    this.cargarUbicaciones();
+    this.cargarConexiones();
   },
   methods: {
     registrar_ubicacion: function registrar_ubicacion() {},
@@ -3034,6 +2973,33 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res.data);
       })["catch"](function (error) {
         console.log("Error en axios");
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    mostrarDatosUbicacion: function mostrarDatosUbicacion(ubicacion) {
+      this.ubicacionModificar = ubicacion;
+    },
+    cargarUbicaciones: function cargarUbicaciones() {
+      var _this = this;
+      axios.get('/cargarUbicaciones').then(function (resp) {
+        console.log('Datos cargados');
+        console.log(resp.data);
+        _this.listaUbicaciones = resp.data.ubicacion;
+      })["catch"](function (error) {
+        console.log("No se cargaron los datos");
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    cargarConexiones: function cargarConexiones() {
+      var _this2 = this;
+      axios.get('/cargarConexiones').then(function (resp) {
+        console.log('Datos cargados');
+        console.log(resp.data.conexion);
+        _this2.listaConexiones = resp.data.conexion;
+      })["catch"](function (error) {
+        console.log("No se cargaron los datos");
         console.log(error);
         console.log(error.response);
       });
@@ -3101,11 +3067,10 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           console.log("Respuesta del servidor");
           console.log(res.data);
-          _this.verRutas = false;
           _this.ruta = res.data;
           _this.nombreRuta = "";
         })["catch"](function (error) {
-          console.log("Erro en axios");
+          console.log("Error en axios");
           console.log(error);
           console.log(error.response);
         });
@@ -21943,37 +21908,45 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "col-12 mt-5" }, [
+    _c("div", { staticClass: "col-12 m-0 p-0 row justify-content-center" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-7 mt-3" }, [_c("vista-grafo")], 1),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 mt-5" }, [
-      _c("div", { staticClass: "col-12 m-0 p-0 row justify-content-center" }, [
-        _c("div", { staticClass: "col-7" }, [
-          _c(
-            "a",
-            {
-              staticClass: "col-12 btn btn-outline-primary",
-              attrs: { href: "cargarDatos" },
-            },
-            [_vm._v("MODULO CARGA DE DATOS")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-7 mt-3" }, [
-          _c(
-            "a",
-            {
-              staticClass: "col-12 btn btn-outline-primary",
-              attrs: { href: "RegistroRutas" },
-            },
-            [_vm._v("MODULO REGISTRO DE RUTAS")]
-          ),
-        ]),
-      ]),
+    return _c("div", { staticClass: "col-7" }, [
+      _c(
+        "a",
+        {
+          staticClass: "col-12 btn btn-outline-primary",
+          attrs: { href: "cargarDatos" },
+        },
+        [_vm._v("MODULO CARGA DE DATOS")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-7 mt-3" }, [
+      _c(
+        "a",
+        {
+          staticClass: "col-12 btn btn-outline-primary",
+          attrs: { href: "RegistroRutas" },
+        },
+        [_vm._v("MODULO REGISTRO DE RUTAS")]
+      ),
     ])
   },
 ]
@@ -22161,39 +22134,36 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(
-                  _vm.ruta_selected.ubicaciones,
-                  function (ubicacion, index) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ubicacion.nombre))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ubicacion.posX))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ubicacion.posY))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              "data-bs-toggle": "modal",
-                              "data-bs-target": "#editar",
-                            },
-                            on: {
-                              click: function ($event) {
-                                return _vm.enviarDatos(ubicacion)
-                              },
+                _vm._l(_vm.listaUbicaciones, function (ubicacion) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(ubicacion.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(ubicacion.nombre))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(ubicacion.posX))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(ubicacion.posY))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: {
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#editar",
+                          },
+                          on: {
+                            click: function ($event) {
+                              return _vm.enviarDatos(ubicacion)
                             },
                           },
-                          [_vm._v("EDIT.")]
-                        ),
-                      ]),
-                    ])
-                  }
-                ),
+                        },
+                        [_vm._v("EDIT.")]
+                      ),
+                    ]),
+                  ])
+                }),
                 0
               ),
             ]),
@@ -22209,22 +22179,19 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(
-                  _vm.ruta_selected.conexiones,
-                  function (conexion, index) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(conexion.ubicacion1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(conexion.ubicacion2))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(conexion.peso))]),
-                      _vm._v(" "),
-                      _vm._m(6, true),
-                    ])
-                  }
-                ),
+                _vm._l(_vm.listaConexiones, function (conexion) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(conexion.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(conexion.ubicacion1))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(conexion.ubicacion2))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(conexion.peso))]),
+                    _vm._v(" "),
+                    _vm._m(6, true),
+                  ])
+                }),
                 0
               ),
             ]),
@@ -22550,7 +22517,7 @@ var render = function () {
                               staticClass: "form-label",
                               attrs: { for: "nombreUbicacion" },
                             },
-                            [_vm._v("Nombre de la ruta")]
+                            [_vm._v("Nombre de la ubicación")]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -22558,19 +22525,23 @@ var render = function () {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.nombreUbicacion,
-                                expression: "nombreUbicacion",
+                                value: _vm.ubicacionModificar.nombre,
+                                expression: "ubicacionModificar.nombre",
                               },
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "email", id: "nombreUbicacion" },
-                            domProps: { value: _vm.nombreUbicacion },
+                            attrs: { type: "text", id: "nombreUbicacion" },
+                            domProps: { value: _vm.ubicacionModificar.nombre },
                             on: {
                               input: function ($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.nombreUbicacion = $event.target.value
+                                _vm.$set(
+                                  _vm.ubicacionModificar,
+                                  "nombre",
+                                  $event.target.value
+                                )
                               },
                             },
                           }),
@@ -22591,19 +22562,23 @@ var render = function () {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.posXModificar,
-                                expression: "posXModificar",
+                                value: _vm.ubicacionModificar.posX,
+                                expression: "ubicacionModificar.posX",
                               },
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "email", id: "posXModificar" },
-                            domProps: { value: _vm.posXModificar },
+                            attrs: { type: "number", id: "posXModificar" },
+                            domProps: { value: _vm.ubicacionModificar.posX },
                             on: {
                               input: function ($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.posXModificar = $event.target.value
+                                _vm.$set(
+                                  _vm.ubicacionModificar,
+                                  "posX",
+                                  $event.target.value
+                                )
                               },
                             },
                           }),
@@ -22624,19 +22599,23 @@ var render = function () {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.posYModificar,
-                                expression: "posYModificar",
+                                value: _vm.ubicacionModificar.posY,
+                                expression: "ubicacionModificar.posY",
                               },
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "email", id: "posYModificar" },
-                            domProps: { value: _vm.posYModificar },
+                            attrs: { type: "number", id: "posYModificar" },
+                            domProps: { value: _vm.ubicacionModificar.posY },
                             on: {
                               input: function ($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.posYModificar = $event.target.value
+                                _vm.$set(
+                                  _vm.ubicacionModificar,
+                                  "posY",
+                                  $event.target.value
+                                )
                               },
                             },
                           }),
