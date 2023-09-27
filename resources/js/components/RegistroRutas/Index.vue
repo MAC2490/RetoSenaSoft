@@ -32,7 +32,7 @@
 			return{
 				nombreRuta: "",
 				rutasCargadas: [
-					// {"ubicaciones": [{"nombre": "A","posX": 20,"posY": 20},{"nombre": "B","posX": 45,"posY": 60},{"nombre": "C","posX": 79,"posY": 90},{"nombre": "D","posX": 56,"posY": 79},{"nombre": "E","posX": 156,"posY": 79}],"conexiones": [{"ubicacion1": "A","ubicacion2": "B","peso": 20},{"ubicacion1": "C","ubicacion2": "D","peso": 50},{"ubicacion1": "B","ubicacion2": "E","peso": 150}],"inicio": "D","ruta": "RUTA 01",}
+					{"ubicaciones": [{"nombre": "A","posX": 20,"posY": 20},{"nombre": "B","posX": 45,"posY": 60},{"nombre": "C","posX": 79,"posY": 90},{"nombre": "D","posX": 56,"posY": 79},{"nombre": "E","posX": 156,"posY": 79}],"conexiones": [{"ubicacion1": "A","ubicacion2": "B","peso": 20},{"ubicacion1": "C","ubicacion2": "D","peso": 50},{"ubicacion1": "B","ubicacion2": "E","peso": 150}],"inicio": "D","ruta": "RUTA 01",}
 				],
 				datosDePrueba: null,
 			};

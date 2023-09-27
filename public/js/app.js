@@ -2302,19 +2302,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
   components: {},
   data: function data() {
     return {
-      ruta_selected: {}
+      ruta_selected: {},
+      nombre_ruta: '',
+      posX: '',
+      posY: ''
     };
   },
   created: function created() {
     this.ruta_selected = this.ruta;
   },
-  methods: {}
+  methods: {
+    registrar: function registrar() {}
+  }
 });
 
 /***/ }),
@@ -2364,9 +2402,44 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       nombreRuta: "",
-      rutasCargadas: [
-        // {"ubicaciones": [{"nombre": "A","posX": 20,"posY": 20},{"nombre": "B","posX": 45,"posY": 60},{"nombre": "C","posX": 79,"posY": 90},{"nombre": "D","posX": 56,"posY": 79},{"nombre": "E","posX": 156,"posY": 79}],"conexiones": [{"ubicacion1": "A","ubicacion2": "B","peso": 20},{"ubicacion1": "C","ubicacion2": "D","peso": 50},{"ubicacion1": "B","ubicacion2": "E","peso": 150}],"inicio": "D","ruta": "RUTA 01",}
-      ],
+      rutasCargadas: [{
+        "ubicaciones": [{
+          "nombre": "A",
+          "posX": 20,
+          "posY": 20
+        }, {
+          "nombre": "B",
+          "posX": 45,
+          "posY": 60
+        }, {
+          "nombre": "C",
+          "posX": 79,
+          "posY": 90
+        }, {
+          "nombre": "D",
+          "posX": 56,
+          "posY": 79
+        }, {
+          "nombre": "E",
+          "posX": 156,
+          "posY": 79
+        }],
+        "conexiones": [{
+          "ubicacion1": "A",
+          "ubicacion2": "B",
+          "peso": 20
+        }, {
+          "ubicacion1": "C",
+          "ubicacion2": "D",
+          "peso": 50
+        }, {
+          "ubicacion1": "B",
+          "ubicacion2": "E",
+          "peso": 150
+        }],
+        "inicio": "D",
+        "ruta": "RUTA 01"
+      }],
       datosDePrueba: null
     };
   },
@@ -20476,6 +20549,154 @@ var render = function () {
                 0
               ),
             ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "crear",
+                  tabindex: "-1",
+                  "aria-labelledby": "exampleModalLabel",
+                  "aria-hidden": "true",
+                },
+              },
+              [
+                _c("div", { staticClass: "modal-dialog" }, [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", [
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "nombre_ruta" },
+                            },
+                            [_vm._v("Nombre de la ruta")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.nombre_ruta,
+                                expression: "nombre_ruta",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "nombre_ruta" },
+                            domProps: { value: _vm.nombre_ruta },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.nombre_ruta = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "posX" },
+                            },
+                            [_vm._v("Pos X")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.posX,
+                                expression: "posX",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "posX" },
+                            domProps: { value: _vm.posX },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.posX = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "posY" },
+                            },
+                            [_vm._v("Pos Y")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.posY,
+                                expression: "posY",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "posY" },
+                            domProps: { value: _vm.posY },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.posY = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button", "data-bs-dismiss": "modal" },
+                        },
+                        [_vm._v("Cancelar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.registrar()
+                            },
+                          },
+                        },
+                        [_vm._v("Aceptar")]
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]
+            ),
           ]),
         ]),
       ]),
@@ -20586,6 +20807,27 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", [
       _c("button", { staticClass: "btn btn-primary" }, [_vm._v("EDIT.")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
     ])
   },
 ]
