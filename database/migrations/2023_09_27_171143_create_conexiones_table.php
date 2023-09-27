@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rutas', function (Blueprint $table) {
+        Schema::create('conexiones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('nombre_ruta');
+            $table->string('ubicacion1');
+            $table->string('ubicacion2');
+            $table->string('peso');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rutas');
+        Schema::dropIfExists('conexiones');
     }
 };

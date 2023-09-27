@@ -35,7 +35,6 @@
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
-						<button type="button" @click="mostrar()">Mostrar arreglo</button>
 						<table class="table table-bordered">
 							<thead>
 								<tr class="bg-primary text-light">

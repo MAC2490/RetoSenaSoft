@@ -2299,7 +2299,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
@@ -3073,6 +3072,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3081,55 +3093,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      nombreRuta: ""
+      nombreRuta: "",
+      verRutas: true,
+      ruta: ''
     };
   },
   created: function created() {},
   methods: {
-    CapturarInformacion: function CapturarInformacion(event) {
-      var _this = this;
-      var file = event.target.files[0];
-      if (file) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          try {
-            _this.datosDePrueba = JSON.parse(reader.result);
-            console.log("Datos del archivo JSON: ", _this.datosDePrueba);
-          } catch (error) {
-            console.error('Error en JSON', error);
-          }
-        };
-        reader.readAsText(file);
-      }
-    },
-    cargarRuta: function cargarRuta() {
-      var validacion = true;
-      for (var i = 0; i < this.rutasCargadas.length; i++) {
-        if (this.rutasCargadas[i].ruta == this.nombreRuta || this.rutasCargadas[i].conexiones == this.datosDePrueba.conexiones && this.rutasCargadas[i].ubicaciones == this.datosDePrueba.ubicaciones && this.rutasCargadas[i].inicio == this.datosDePrueba.inicio) {
-          validacion = false;
-          break;
-        }
-      }
-      if (validacion && this.nombreRuta != "") {
-        var temporal = {
-          'ruta': this.nombreRuta.toUpperCase(),
-          'conexiones': this.datosDePrueba.conexiones,
-          'ubicaciones': this.datosDePrueba.ubicaciones,
-          'inicio': this.datosDePrueba.inicio
-        };
-        this.rutasCargadas.push(temporal);
-        this.registrarRuta();
-        this.nombreRuta = "";
-      } else {
-        if (this.nombreRuta == "") {
-          alert("Se debe ingresar un nombre de Ruta.");
-        } else {
-          alert("La informacion del JSON ya se encuentra cargada");
-        }
-      }
-    },
     guardar_ruta: function guardar_ruta() {
-      // axios.post('/guardar_ruta')
+      var _this = this;
+      var rutas = this.nombreRuta;
+      if (rutas != null) {
+        axios.post('/guardar_ruta', {
+          rutas: rutas
+        }).then(function (res) {
+          console.log("Respuesta del servidor");
+          console.log(res.data);
+          _this.verRutas = false;
+          _this.ruta = res.data;
+          _this.nombreRuta = "";
+        })["catch"](function (error) {
+          console.log("Erro en axios");
+          console.log(error);
+          console.log(error.response);
+        });
+      } else {}
     }
   }
 });
@@ -3202,6 +3190,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.listaRutas = this.rutas;
+    this.cargarRutas();
   },
   methods: {
     regresar: function regresar() {
@@ -3211,6 +3200,18 @@ __webpack_require__.r(__webpack_exports__);
     verDetalleRuta: function verDetalleRuta(ruta) {
       this.verTablaRutas = false;
       this.ruta_selected = ruta;
+    },
+    cargarRutas: function cargarRutas() {
+      var _this = this;
+      axios.get('/cargarRutas').then(function (resp) {
+        console.log('Datos cargados');
+        console.log(resp.data);
+        _this.listaRutas = resp.data.ruta;
+      })["catch"](function (error) {
+        console.log("No se cargaron los datos");
+        console.log(error);
+        console.log(error.response);
+      });
     }
   }
 });
@@ -21453,19 +21454,6 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    return _vm.mostrar()
-                  },
-                },
-              },
-              [_vm._v("Mostrar arreglo")]
-            ),
-            _vm._v(" "),
             _c("table", { staticClass: "table table-bordered" }, [
               _c("thead", [
                 _c("tr", { staticClass: "bg-primary text-light" }, [
@@ -21977,7 +21965,7 @@ var staticRenderFns = [
             "a",
             {
               staticClass: "col-12 btn btn-outline-primary",
-              attrs: { href: "CargaDatos" },
+              attrs: { href: "cargarDatos" },
             },
             [_vm._v("MODULO CARGA DE DATOS")]
           ),
@@ -22947,11 +22935,87 @@ var render = function () {
           { staticClass: "text-center form-text", attrs: { id: "emailHelp" } },
           [_vm._v("Ingrese el nombre de la ruta que quiere guardar")]
         ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
+          _c("div", { staticClass: "col-3 mb-2" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nombreRuta,
+                  expression: "nombreRuta",
+                },
+              ],
+              staticClass: "form-control text-uppercase",
+              attrs: { id: "campoNombreRuta", type: "text" },
+              domProps: { value: _vm.nombreRuta },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nombreRuta = $event.target.value
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-3 pt-12",
+              staticStyle: { "margin-top": "32px" },
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "col-12 btn btn-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.guardar_ruta()
+                    },
+                  },
+                },
+                [_vm._v("CARGAR")]
+              ),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "col-12 m-0 p-2 mt-3 border  row justify-content-center",
+          },
+          [
+            _vm.verRutas
+              ? _c("rutas-component", { attrs: { rutas: _vm.ruta } })
+              : _vm._e(),
+          ],
+          1
+        ),
       ]),
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "campoNombreRuta" } },
+      [_c("b", [_vm._v("Nombre Ruta:")])]
+    )
+  },
+]
 render._withStripped = true
 
 
@@ -22999,11 +23063,11 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.listaRutas, function (ruta, index) {
+                _vm._l(_vm.listaRutas, function (ruta) {
                   return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _c("td", [_vm._v(_vm._s(ruta.id))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ruta.ruta))]),
+                    _c("td", [_vm._v(_vm._s(ruta.nombre_ruta))]),
                     _vm._v(" "),
                     _c(
                       "td",
