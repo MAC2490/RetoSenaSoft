@@ -2167,6 +2167,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2274,13 +2304,111 @@ __webpack_require__.r(__webpack_exports__);
   components: {},
   data: function data() {
     return {
-      ruta_selected: {}
+      ruta_selected: {},
+      puntoInicio: this.ruta_selected,
+      grafoJSON: {
+        "ubicaciones": ["A", "B", "C", "D", "E"],
+        "conexiones": [{
+          "origen": "A",
+          "destino": "C",
+          "peso": "3"
+        }, {
+          "origen": "B",
+          "destino": "C",
+          "peso": "4"
+        }, {
+          "origen": "B",
+          "destino": "D",
+          "peso": "5"
+        }, {
+          "origen": "A",
+          "destino": "B",
+          "peso": "1"
+        }, {
+          "origen": "C",
+          "destino": "D",
+          "peso": "7"
+        }, {
+          "origen": "C",
+          "destino": "E",
+          "peso": "9"
+        }, {
+          "origen": "E",
+          "destino": "D",
+          "peso": "2"
+        }]
+      }
     };
   },
   created: function created() {
     this.ruta_selected = this.ruta;
   },
-  methods: {}
+  methods: {
+    calcularDistancias: function calcularDistancias(grafoJSON, nodoInicio) {
+      console.log("test");
+      var ubicaciones = this.grafoJSON.ubicaciones;
+      var conexiones = this.grafoJSON.conexiones;
+      var distanciasMinimas = {};
+      ubicaciones.forEach(function (ubicacion) {
+        distanciasMinimas[ubicacion] = Infinity;
+      });
+      distanciasMinimas[nodoInicio];
+      var previos = {};
+      ubicaciones.forEach(function (ubicacion) {
+        previos[ubicacion] = null;
+      });
+      function encontrarUbicacionMinima(noVisitados) {
+        var nodoMinimo = null;
+        noVisitados.forEach(function (ubicacion) {
+          if (nodoMinimo == null || distanciasMinimas[ubicacion] < distanciasMinimas[nodoMinimo]) {
+            nodoMinimo = ubicacion;
+          }
+        });
+        return nodoMinimo;
+      }
+      var nodosNoVisitados = _toConsumableArray(ubicaciones);
+      var _loop = function _loop() {
+        // Encuentra el nodo con la distancia mínima no visitada
+        var nodoActual = encontrarUbicacionMinima(nodosNoVisitados);
+
+        // Elimina el nodo actual de la lista de nodos no visitados
+        nodosNoVisitados.splice(nodosNoVisitados.indexOf(nodoActual), 1);
+
+        // Encuentra las conexiones del nodo actual
+        var conexionesNodoActual = conexiones.filter(function (conexion) {
+          return conexion.origen === nodoActual;
+        });
+        conexionesNodoActual.forEach(function (conexion) {
+          var distanciaTotal = distanciasMinimas[nodoActual] + parseInt(conexion.peso);
+          if (distanciaTotal < distanciasMinimas[conexion.destino]) {
+            distanciasMinimas[conexion.destino] = distanciaTotal;
+            previos[conexion.destino] = nodoActual;
+          }
+        });
+      };
+      while (nodosNoVisitados.length > 0) {
+        _loop();
+      }
+      var resultados = {
+        distanciasMinimas: distanciasMinimas,
+        rutas: {}
+      };
+      ubicaciones.forEach(function (ubicacion) {
+        if (ubicacion !== nodoInicio) {
+          var ruta = [];
+          var nodoActual = ubicacion;
+          while (nodoActual !== null) {
+            ruta.unshift(nodoActual);
+            nodoActual = previos[nodoActual];
+          }
+          resultados.rutas[ubicacion] = ruta;
+        }
+      });
+      return resultados;
+      console.log("Distancias minimas: ", resultados.distanciasMinimas);
+      console.log("Rutas: ", resultados.rutas);
+    }
+  }
 });
 
 /***/ }),
@@ -20751,13 +20879,31 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col-auto" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: {
+                id: "botonCalcular",
+                "data-bs-target": "#modalCalcular",
+                "data-bs-toggle": "modal",
+              },
+              on: {
+                click: function ($event) {
+                  return _vm.calcularDistancias(_vm.grafoJSON, _vm.puntoInicio)
+                },
+              },
+            },
+            [_vm._v("CALCULAR")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-12 m-0 mt-2 p-0 row" }, [
         _c("div", { staticClass: "col border me-1" }, [
           _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "col text-end" }, [
                false
@@ -20810,7 +20956,7 @@ var render = function () {
         _vm._v(" "),
         _c("div", { staticClass: "col border ms-1" }, [
           _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
-            _vm._m(3),
+            _vm._m(2),
             _vm._v(" "),
             _c("div", { staticClass: "col text-end" }, [
                false
@@ -20862,6 +21008,8 @@ var render = function () {
         ]),
       ]),
     ]),
+    _vm._v(" "),
+    _vm._m(3),
   ])
 }
 var staticRenderFns = [
@@ -20871,14 +21019,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-auto" }, [
       _c("h4", [_vm._v("UBICACION DE INICIO: ")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-auto" }, [
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("CALCULAR")]),
     ])
   },
   function () {
@@ -20896,6 +21036,67 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-auto" }, [
       _c("h6", { staticClass: "mt-3" }, [_vm._v("CONEXIONES DE LA RUTA:")]),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalCalcular",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h1",
+                {
+                  staticClass: "modal-title fs-5",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("Calculo de conexión más corta")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: {
+                  type: "button",
+                  "data-bs-dismiss": "modal",
+                  "aria-label": "Close",
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" },
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "button" } },
+                [_vm._v("Save changes")]
+              ),
+            ]),
+          ]),
+        ]),
+      ]
+    )
   },
 ]
 render._withStripped = true
