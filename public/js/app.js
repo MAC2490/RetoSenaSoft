@@ -2299,7 +2299,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
@@ -2967,6 +2966,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
   components: {},
@@ -2987,8 +3020,6 @@ __webpack_require__.r(__webpack_exports__);
     this.ruta_selected = this.ruta;
   },
   methods: {
-    registrar: function registrar() {},
-    enviarDatos: function enviarDatos(ruta) {}
     registrar_ubicacion: function registrar_ubicacion() {},
     registrar_conexiones: function registrar_conexiones() {
       var ubicacion1 = this.ubicacion1;
@@ -3007,7 +3038,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response);
       });
     }
->>>>>>> origin/dev2
   }
 });
 
@@ -3045,6 +3075,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3052,7 +3084,46 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      nombreRuta: ""
+      nombreRuta: "",
+      rutasCargadas: [{
+        "ubicaciones": [{
+          "nombre": "A",
+          "posX": 20,
+          "posY": 20
+        }, {
+          "nombre": "B",
+          "posX": 45,
+          "posY": 60
+        }, {
+          "nombre": "C",
+          "posX": 79,
+          "posY": 90
+        }, {
+          "nombre": "D",
+          "posX": 56,
+          "posY": 79
+        }, {
+          "nombre": "E",
+          "posX": 156,
+          "posY": 79
+        }],
+        "conexiones": [{
+          "ubicacion1": "A",
+          "ubicacion2": "B",
+          "peso": 20
+        }, {
+          "ubicacion1": "C",
+          "ubicacion2": "D",
+          "peso": 50
+        }, {
+          "ubicacion1": "B",
+          "ubicacion2": "E",
+          "peso": 150
+        }],
+        "inicio": "D",
+        "ruta": "RUTA 01"
+      }],
+      datosDePrueba: null
     };
   },
   created: function created() {},
@@ -3110,8 +3181,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         console.log(error.response);
       });
-    guardar_ruta: function guardar_ruta() {
-      axios.post('/guardar_ruta');
     }
   }
 });
@@ -21435,19 +21504,6 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    return _vm.mostrar()
-                  },
-                },
-              },
-              [_vm._v("Mostrar arreglo")]
-            ),
-            _vm._v(" "),
             _c("table", { staticClass: "table table-bordered" }, [
               _c("thead", [
                 _c("tr", { staticClass: "bg-primary text-light" }, [
@@ -21959,7 +22015,7 @@ var staticRenderFns = [
             "a",
             {
               staticClass: "col-12 btn btn-outline-primary",
-              attrs: { href: "CargaDatos" },
+              attrs: { href: "cargarDatos" },
             },
             [_vm._v("MODULO CARGA DE DATOS")]
           ),
@@ -22393,7 +22449,7 @@ var render = function () {
               [
                 _c("div", { staticClass: "modal-dialog" }, [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(9),
+                    _vm._m(8),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", [
@@ -22541,7 +22597,7 @@ var render = function () {
               [
                 _c("div", { staticClass: "modal-dialog" }, [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(8),
+                    _vm._m(9),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", [
@@ -22831,6 +22887,27 @@ var staticRenderFns = [
       }),
     ])
   },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
+    ])
+  },
 ]
 render._withStripped = true
 
@@ -22886,16 +22963,6 @@ var render = function () {
             }),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-6 mb-2" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { id: "campoJson", type: "file" },
-              on: { change: _vm.CapturarInformacion },
-            }),
-          ]),
-          _vm._v(" "),
           _c(
             "div",
             {
@@ -22918,36 +22985,6 @@ var render = function () {
               ),
             ]
           ),
-=======
-  return _c(
-    "div",
-    { staticClass: "col-12 m-0 p-0 mt-2 row justify-content-center" },
-    [
-      _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
-        _c("div", { staticClass: "col-3 mb-0" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.nombreRuta,
-                expression: "nombreRuta",
-              },
-            ],
-            staticClass: "form-control text-uppercase",
-            staticStyle: { "margin-top": "33px" },
-            attrs: { id: "campoNombreRuta", type: "text" },
-            domProps: { value: _vm.nombreRuta },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.nombreRuta = $event.target.value
-              },
-            },
-          }),
-
         ]),
         _vm._v(" "),
         _c(
@@ -22962,43 +22999,19 @@ var render = function () {
       ]
     ),
   ])
-          { staticClass: "col-3 mt-6", staticStyle: { "margin-top": "32px" } },
-          [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-primary",
-                on: {
-                  click: function ($event) {
-                    return _vm.guardar_ruta()
-                  },
-                },
-              },
-              [_vm._v(" Guardar Ruta ")]
-            ),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "text-center form-text", attrs: { id: "emailHelp" } },
-          [_vm._v("Ingrese el nombre de la ruta que quiere guardar")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "col-12 m-0 p-2 mt-3 border  row justify-content-center",
-        },
-        [_c("rutas-component", { attrs: { rutas: _vm.rutasCargadas } })],
-        1
-      ),
-    ]
-  )
->>>>>>> origin/dev2
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "campoNombreRuta" } },
+      [_c("b", [_vm._v("Nombre Ruta:")])]
+    )
+  },
+]
 render._withStripped = true
 
 

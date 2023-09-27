@@ -23,3 +23,4 @@ Route::get('/RegistroRutas', [RutasController::class, 'index'] );
 Route::post('/CreacionRutas',[RutasController::class,'registrarRuta']);
 Route::post('/Registrar_conexiones', [ConexionController::class, 'registrar']);
 Route::post('/guardar_ruta', [RutasController::class, 'guardar_ruta']);
+Route::get('/cargarDatos', [CargaDatosController::class, 'index']);
