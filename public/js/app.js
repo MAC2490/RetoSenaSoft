@@ -2967,17 +2967,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
   components: {},
   data: function data() {
     return {
       ruta_selected: {},
+      // data de se la ubicacion
       nombre_ruta: '',
       posX: '',
-      posY: ''
+      posY: '',
+      // data de las conexiones
+      ubicacion1: '',
+      ubicacion2: '',
+      peso: ''
     };
   },
   created: function created() {
@@ -2986,6 +2989,25 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     registrar: function registrar() {},
     enviarDatos: function enviarDatos(ruta) {}
+    registrar_ubicacion: function registrar_ubicacion() {},
+    registrar_conexiones: function registrar_conexiones() {
+      var ubicacion1 = this.ubicacion1;
+      var ubicacion2 = this.ubicacion2;
+      var peso = this.peso;
+      axios.post('/Registrar_conexiones', {
+        ubicacion1: ubicacion1,
+        ubicacion2: ubicacion2,
+        peso: peso
+      }).then(function (res) {
+        console.log("Respuesta del servidor");
+        console.log(res.data);
+      })["catch"](function (error) {
+        console.log("Error en axios");
+        console.log(error);
+        console.log(error.response);
+      });
+    }
+>>>>>>> origin/dev2
   }
 });
 
@@ -3023,13 +3045,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3037,46 +3052,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      nombreRuta: "",
-      rutasCargadas: [{
-        "ubicaciones": [{
-          "nombre": "A",
-          "posX": 20,
-          "posY": 20
-        }, {
-          "nombre": "B",
-          "posX": 45,
-          "posY": 60
-        }, {
-          "nombre": "C",
-          "posX": 79,
-          "posY": 90
-        }, {
-          "nombre": "D",
-          "posX": 56,
-          "posY": 79
-        }, {
-          "nombre": "E",
-          "posX": 156,
-          "posY": 79
-        }],
-        "conexiones": [{
-          "ubicacion1": "A",
-          "ubicacion2": "B",
-          "peso": 20
-        }, {
-          "ubicacion1": "C",
-          "ubicacion2": "D",
-          "peso": 50
-        }, {
-          "ubicacion1": "B",
-          "ubicacion2": "E",
-          "peso": 150
-        }],
-        "inicio": "D",
-        "ruta": "RUTA 01"
-      }],
-      datosDePrueba: null
+      nombreRuta: ""
     };
   },
   created: function created() {},
@@ -3134,6 +3110,8 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         console.log(error.response);
       });
+    guardar_ruta: function guardar_ruta() {
+      axios.post('/guardar_ruta');
     }
   }
 });
@@ -22258,7 +22236,7 @@ var render = function () {
               {
                 staticClass: "modal fade",
                 attrs: {
-                  id: "crear",
+                  id: "crear_ubicacion",
                   tabindex: "-1",
                   "aria-labelledby": "exampleModalLabel",
                   "aria-hidden": "true",
@@ -22389,7 +22367,155 @@ var render = function () {
                           attrs: { type: "button" },
                           on: {
                             click: function ($event) {
-                              return _vm.registrar()
+                              return _vm.registrar_ubicacion()
+                            },
+                          },
+                        },
+                        [_vm._v("Aceptar")]
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "crear_ruta",
+                  tabindex: "-1",
+                  "aria-labelledby": "exampleModalLabel",
+                  "aria-hidden": "true",
+                },
+              },
+              [
+                _c("div", { staticClass: "modal-dialog" }, [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", [
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "ubicacion1" },
+                            },
+                            [_vm._v("ubicacion 1")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ubicacion1,
+                                expression: "ubicacion1",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "ubicacion1" },
+                            domProps: { value: _vm.ubicacion1 },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ubicacion1 = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "ubicacion2" },
+                            },
+                            [_vm._v("ubicacion 2")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ubicacion2,
+                                expression: "ubicacion2",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "ubicacion2" },
+                            domProps: { value: _vm.ubicacion2 },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ubicacion2 = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "peso" },
+                            },
+                            [_vm._v("Peso")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.peso,
+                                expression: "peso",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "peso" },
+                            domProps: { value: _vm.peso },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.peso = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button", "data-bs-dismiss": "modal" },
+                        },
+                        [_vm._v("Cancelar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.registrar_conexiones()
                             },
                           },
                         },
@@ -22585,7 +22711,10 @@ var staticRenderFns = [
           "button",
           {
             staticClass: "btn btn-primary py-1",
-            attrs: { "data-bs-toggle": "modal", "data-bs-target": "#crear" },
+            attrs: {
+              "data-bs-toggle": "modal",
+              "data-bs-target": "#crear_ubicacion",
+            },
           },
           [_vm._v("CREAR")]
         ),
@@ -22620,9 +22749,17 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col text-end" }, [
-        _c("button", { staticClass: "btn btn-primary py-1" }, [
-          _vm._v("CREAR"),
-        ]),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary py-1",
+            attrs: {
+              "data-bs-toggle": "modal",
+              "data-bs-target": "#crear_ruta",
+            },
+          },
+          [_vm._v("CREAR")]
+        ),
       ]),
     ])
   },
@@ -22781,6 +22918,36 @@ var render = function () {
               ),
             ]
           ),
+=======
+  return _c(
+    "div",
+    { staticClass: "col-12 m-0 p-0 mt-2 row justify-content-center" },
+    [
+      _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
+        _c("div", { staticClass: "col-3 mb-0" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.nombreRuta,
+                expression: "nombreRuta",
+              },
+            ],
+            staticClass: "form-control text-uppercase",
+            staticStyle: { "margin-top": "33px" },
+            attrs: { id: "campoNombreRuta", type: "text" },
+            domProps: { value: _vm.nombreRuta },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.nombreRuta = $event.target.value
+              },
+            },
+          }),
+
         ]),
         _vm._v(" "),
         _c(
@@ -22795,29 +22962,43 @@ var render = function () {
       ]
     ),
   ])
+          { staticClass: "col-3 mt-6", staticStyle: { "margin-top": "32px" } },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-primary",
+                on: {
+                  click: function ($event) {
+                    return _vm.guardar_ruta()
+                  },
+                },
+              },
+              [_vm._v(" Guardar Ruta ")]
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "text-center form-text", attrs: { id: "emailHelp" } },
+          [_vm._v("Ingrese el nombre de la ruta que quiere guardar")]
+        ),
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "col-12 m-0 p-2 mt-3 border  row justify-content-center",
+        },
+        [_c("rutas-component", { attrs: { rutas: _vm.rutasCargadas } })],
+        1
+      ),
+    ]
+  )
+>>>>>>> origin/dev2
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "form-label", attrs: { for: "campoNombreRuta" } },
-      [_c("b", [_vm._v("Nombre Ruta:")])]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "form-label", attrs: { for: "campoJson" } },
-      [_c("b", [_vm._v("Archivo JSON:")])]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

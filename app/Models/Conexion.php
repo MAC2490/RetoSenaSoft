@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Conexion extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'ubicacion1',
+        'ubicacion2',
+        'peso',
+    ];
 }

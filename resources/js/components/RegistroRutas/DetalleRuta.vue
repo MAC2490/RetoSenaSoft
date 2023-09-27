@@ -30,7 +30,7 @@
 							<h6 class="mt-3">UBICACIONES DE LA RUTA:</h6>
 						</div>
 						<div class="col text-end">
-							<button class="btn btn-primary py-1" data-bs-toggle="modal" data-bs-target="#crear">CREAR</button>
+							<button class="btn btn-primary py-1" data-bs-toggle="modal" data-bs-target="#crear_ubicacion">CREAR</button>
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
@@ -64,7 +64,7 @@
 							<h6 class="mt-3">CONEXIONES DE LA RUTA:</h6>
 						</div>
 						<div class="col text-end">
-							<button class="btn btn-primary py-1">CREAR</button>
+							<button class="btn btn-primary py-1" data-bs-toggle="modal" data-bs-target="#crear_ruta">CREAR</button>
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
@@ -92,36 +92,68 @@
 						</table>
 
 
-						<!-- Modal crear -->
-						<div class="modal fade" id="crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div class="mb-3">
-										<label for="nombre_ruta" class="form-label">Nombre de la ruta</label>
-										<input v-model="nombre_ruta" type="email" class="form-control" id="nombre_ruta">
+						<!-- Modal crear ubicacion -->
+						<div class="modal fade" id="crear_ubicacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
-									<div class="mb-3">
-										<label for="posX" class="form-label">Pos X</label>
-										<input v-model="posX" type="email" class="form-control" id="posX">
+									<div class="modal-body">
+										<div>
+											<div class="mb-3">
+												<label for="nombre_ruta" class="form-label">Nombre de la ruta</label>
+												<input v-model="nombre_ruta" type="email" class="form-control" id="nombre_ruta">
+											</div>
+											<div class="mb-3">
+												<label for="posX" class="form-label">Pos X</label>
+												<input v-model="posX" type="email" class="form-control" id="posX">
+											</div>
+											<div class="mb-3">
+												<label for="posY" class="form-label">Pos Y</label>
+												<input v-model="posY" type="email" class="form-control" id="posY">
+											</div>
+										</div>
 									</div>
-									<div class="mb-3">
-										<label for="posY" class="form-label">Pos Y</label>
-										<input v-model="posY" type="email" class="form-control" id="posY">
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+										<button type="button" class="btn btn-primary" @click="registrar_ubicacion()">Aceptar</button>
 									</div>
 								</div>
 							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-								<button type="button" class="btn btn-primary" @click="registrar()">Aceptar</button>
-							</div>
-							</div>
 						</div>
+
+						<!-- Modal crear ruta -->
+						<div class="modal fade" id="crear_ruta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div>
+											<div class="mb-3">
+												<label for="ubicacion1" class="form-label">ubicacion 1</label>
+												<input v-model="ubicacion1" type="email" class="form-control" id="ubicacion1">
+											</div>
+											<div class="mb-3">
+												<label for="ubicacion2" class="form-label">ubicacion 2</label>
+												<input v-model="ubicacion2" type="email" class="form-control" id="ubicacion2">
+											</div>
+											<div class="mb-3">
+												<label for="peso" class="form-label">Peso</label>
+												<input v-model="peso" type="email" class="form-control" id="peso">
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+										<button type="button" class="btn btn-primary" @click="registrar_conexiones()">Aceptar</button>
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<!-- Modal editar -->
@@ -171,20 +203,35 @@
 		data(){
 			return{
 				ruta_selected: {},
+				// data de se la ubicacion
 				nombre_ruta: '',
 				posX: '',
 				posY: '',
+				// data de las conexiones
+				ubicacion1: '',
+				ubicacion2: '',
+				peso: '',
 			};
 		},
 		created(){
 			this.ruta_selected = this.ruta;
 		},
 		methods:{
-			registrar(){
+			registrar_ubicacion(){
 				
 			},
-			enviarDatos(ruta){
-
+			registrar_conexiones(){
+				const ubicacion1 = this.ubicacion1;
+				const ubicacion2 = this.ubicacion2;
+				const peso = this.peso;
+				axios.post('/Registrar_conexiones', { ubicacion1, ubicacion2, peso }).then(res => {
+					console.log("Respuesta del servidor");
+					console.log(res.data);
+				}).catch(error => {
+					console.log("Error en axios");
+					console.log( error );
+					console.log( error.response );
+				});
 			}
 		}
 	}

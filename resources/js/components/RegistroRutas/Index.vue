@@ -1,25 +1,15 @@
 <template>
-	<div>
-		<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
+	<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
+		
+		<div class="col-6 m-0 p-0 row justify-content-center">
+			<div class="col-3 mb-0">
+				<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text" style="margin-top: 33px;">
+			</div>
 			
-			<div class="col-6 m-0 p-0 row justify-content-center">
-				<div class="col-3 mb-2">
-					<label class="form-label" for="campoNombreRuta"><b>Nombre Ruta:</b></label>
-					<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text">
-				</div>
-
-				<div class="col-6 mb-2">
-					<label class="form-label" for="campoJson"><b>Archivo JSON:</b></label>
-					<input id="campoJson" class="form-control" type="file" @change="CapturarInformacion">
-				</div>
-				<div class="col-3 pt-12" style="margin-top: 32px;">
-					<button class="col-12 btn btn-primary" type="button" @click="cargarRuta()">CARGAR</button>
-				</div>
+			<div class="col-3 mt-6" style="margin-top: 32px;">
+				<button class="btn btn-outline-primary" @click="guardar_ruta()"> Guardar Ruta </button>
 			</div>
-
-			<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
-				<rutas-component :rutas="rutasCargadas"></rutas-component>
-			</div>
+			<div id="emailHelp" class="text-center form-text">Ingrese el nombre de la ruta que quiere guardar</div>
 		</div>
 			
 	</div>
@@ -33,16 +23,13 @@
 		data(){
 			return{
 				nombreRuta: "",
-				rutasCargadas: [
-					{"ubicaciones": [{"nombre": "A","posX": 20,"posY": 20},{"nombre": "B","posX": 45,"posY": 60},{"nombre": "C","posX": 79,"posY": 90},{"nombre": "D","posX": 56,"posY": 79},{"nombre": "E","posX": 156,"posY": 79}],"conexiones": [{"ubicacion1": "A","ubicacion2": "B","peso": 20},{"ubicacion1": "C","ubicacion2": "D","peso": 50},{"ubicacion1": "B","ubicacion2": "E","peso": 150}],"inicio": "D","ruta": "RUTA 01",}
-				],
-				datosDePrueba: null,
 			};
 		},
 		created(){
 			
 		},
 		methods:{
+<<<<<<< HEAD
 			CapturarInformacion(event){
 				const file = event.target.files[0];
 				if(file){
@@ -86,15 +73,8 @@
 					}
 				}
 			},
-			registrarRuta(){
-				axios.post('/registrarRuta', {datosDePrueba}).then(resp => {
-					console.log("Respuesta del servidor");
-					console.log(res.data)
-				}).catch(error => {
-					console.log("Error en axios");
-					console.log(error);
-					console.log(error.response);
-				});
+			guardar_ruta(){
+				axios.post('/guardar_ruta')
 			}
 		}
 	}
