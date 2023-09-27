@@ -16,5 +16,6 @@ use App\Http\Controllers\CargaDatosController;
 
 Route::get('/', function () {return view('welcome');});
 
-Route::get('/CargaDatos', [CargaDatosController::class, 'index'] );
+
+
 Route::get('/RegistroRutas', [RutasController::class, 'index'] );

@@ -8,8 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Ubicacion extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'ruta_id',
+        'posX',
+        'posY',
+        'nombre',
+    ];
 
-    $fillable = [
-        
-    ]
+    public function ruta(){
+        return $this->belongsTo(Ruta::class, 'ruta_id');
+    }
+
 }
