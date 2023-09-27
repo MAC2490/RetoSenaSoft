@@ -3076,11 +3076,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    'rutas-component': _Rutas_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'rutas-component': _Rutas_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    verRutas: true,
+    ruta: ''
   },
   data: function data() {
     return {
@@ -3170,17 +3173,23 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    registrarRuta: function registrarRuta() {
-      axios.post('/registrarRuta', {
-        datosDePrueba: datosDePrueba
-      }).then(function (resp) {
-        console.log("Respuesta del servidor");
-        console.log(res.data);
-      })["catch"](function (error) {
-        console.log("Error en axios");
-        console.log(error);
-        console.log(error.response);
-      });
+    guardar_ruta: function guardar_ruta() {
+      var _this2 = this;
+      var rutas = this.nombreRuta;
+      if (rutas != null) {
+        axios.post('/guardar_ruta', {
+          rutas: rutas
+        }).then(function (res) {
+          console.log("Respuesta del servidor");
+          console.log(res.data);
+          _this2.verRutas = false;
+          _this2.ruta = res.data;
+        })["catch"](function (error) {
+          console.log("Erro en axios");
+          console.log(error);
+          console.log(error.response);
+        });
+      } else {}
     }
   }
 });
@@ -22993,7 +23002,11 @@ var render = function () {
             staticClass:
               "col-12 m-0 p-2 mt-3 border  row justify-content-center",
           },
-          [_c("rutas-component", { attrs: { rutas: _vm.rutasCargadas } })],
+          [
+            _vm.verRutas
+              ? _c("rutas-component", { attrs: { rutas: _vm.ruta } })
+              : _vm._e(),
+          ],
           1
         ),
       ]

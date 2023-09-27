@@ -17,7 +17,12 @@ class RutasController extends Controller {
 	}
 
 	public function guardar_ruta(Request $request){
-		
+		$ruta = new Ruta();
+		$ruta->user_id = 1;
+		$ruta->nombre_ruta = $request->input('rutas');
+		$ruta->save();
+
+		return response()->json($ruta);
 	}
     
 }
