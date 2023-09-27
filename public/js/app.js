@@ -3081,100 +3081,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    'rutas-component': _Rutas_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    verRutas: true,
-    ruta: ''
+    'rutas-component': _Rutas_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
       nombreRuta: "",
-      rutasCargadas: [{
-        "ubicaciones": [{
-          "nombre": "A",
-          "posX": 20,
-          "posY": 20
-        }, {
-          "nombre": "B",
-          "posX": 45,
-          "posY": 60
-        }, {
-          "nombre": "C",
-          "posX": 79,
-          "posY": 90
-        }, {
-          "nombre": "D",
-          "posX": 56,
-          "posY": 79
-        }, {
-          "nombre": "E",
-          "posX": 156,
-          "posY": 79
-        }],
-        "conexiones": [{
-          "ubicacion1": "A",
-          "ubicacion2": "B",
-          "peso": 20
-        }, {
-          "ubicacion1": "C",
-          "ubicacion2": "D",
-          "peso": 50
-        }, {
-          "ubicacion1": "B",
-          "ubicacion2": "E",
-          "peso": 150
-        }],
-        "inicio": "D",
-        "ruta": "RUTA 01"
-      }],
-      datosDePrueba: null
+      verRutas: true,
+      ruta: ''
     };
   },
   created: function created() {},
   methods: {
-    CapturarInformacion: function CapturarInformacion(event) {
-      var _this = this;
-      var file = event.target.files[0];
-      if (file) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          try {
-            _this.datosDePrueba = JSON.parse(reader.result);
-            console.log("Datos del archivo JSON: ", _this.datosDePrueba);
-          } catch (error) {
-            console.error('Error en JSON', error);
-          }
-        };
-        reader.readAsText(file);
-      }
-    },
-    cargarRuta: function cargarRuta() {
-      var validacion = true;
-      for (var i = 0; i < this.rutasCargadas.length; i++) {
-        if (this.rutasCargadas[i].ruta == this.nombreRuta || this.rutasCargadas[i].conexiones == this.datosDePrueba.conexiones && this.rutasCargadas[i].ubicaciones == this.datosDePrueba.ubicaciones && this.rutasCargadas[i].inicio == this.datosDePrueba.inicio) {
-          validacion = false;
-          break;
-        }
-      }
-      if (validacion && this.nombreRuta != "") {
-        var temporal = {
-          'ruta': this.nombreRuta.toUpperCase(),
-          'conexiones': this.datosDePrueba.conexiones,
-          'ubicaciones': this.datosDePrueba.ubicaciones,
-          'inicio': this.datosDePrueba.inicio
-        };
-        this.rutasCargadas.push(temporal);
-        this.registrarRuta();
-        this.nombreRuta = "";
-      } else {
-        if (this.nombreRuta == "") {
-          alert("Se debe ingresar un nombre de Ruta.");
-        } else {
-          alert("La informacion del JSON ya se encuentra cargada");
-        }
-      }
-    },
     guardar_ruta: function guardar_ruta() {
-      var _this2 = this;
+      var _this = this;
       var rutas = this.nombreRuta;
       if (rutas != null) {
         axios.post('/guardar_ruta', {
@@ -3182,8 +3101,9 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           console.log("Respuesta del servidor");
           console.log(res.data);
-          _this2.verRutas = false;
-          _this2.ruta = res.data;
+          _this.verRutas = false;
+          _this.ruta = res.data;
+          _this.nombreRuta = "";
         })["catch"](function (error) {
           console.log("Erro en axios");
           console.log(error);
@@ -3262,6 +3182,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.listaRutas = this.rutas;
+    this.cargarRutas();
   },
   methods: {
     regresar: function regresar() {
@@ -3271,6 +3192,18 @@ __webpack_require__.r(__webpack_exports__);
     verDetalleRuta: function verDetalleRuta(ruta) {
       this.verTablaRutas = false;
       this.ruta_selected = ruta;
+    },
+    cargarRutas: function cargarRutas() {
+      var _this = this;
+      axios.get('/cargarRutas').then(function (resp) {
+        console.log('Datos cargados');
+        console.log(resp.data);
+        _this.listaRutas = resp.data.ruta;
+      })["catch"](function (error) {
+        console.log("No se cargaron los datos");
+        console.log(error);
+        console.log(error.response);
+      });
     }
   }
 });
@@ -22986,7 +22919,7 @@ var render = function () {
                   attrs: { type: "button" },
                   on: {
                     click: function ($event) {
-                      return _vm.cargarRuta()
+                      return _vm.guardar_ruta()
                     },
                   },
                 },
@@ -23072,11 +23005,11 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.listaRutas, function (ruta, index) {
+                _vm._l(_vm.listaRutas, function (ruta) {
                   return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _c("td", [_vm._v(_vm._s(ruta.id))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ruta.ruta))]),
+                    _c("td", [_vm._v(_vm._s(ruta.nombre_ruta))]),
                     _vm._v(" "),
                     _c(
                       "td",

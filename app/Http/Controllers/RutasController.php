@@ -12,8 +12,16 @@ class RutasController extends Controller {
 	}
 
 
-	public function consultarDatosRutas(){
-		#...
+	public function cargarRutas(){
+		$ruta = Ruta::get();
+
+		$data = [
+
+			'estado' => true,
+			'ruta' => $ruta
+		];
+
+		return response()->json($data);
 	}
 
 	public function guardar_ruta(Request $request){
