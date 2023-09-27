@@ -19,7 +19,7 @@
 					</select>
 				</div>
 				<div class="col-auto">
-					<button class="btn btn-primary" id="botonCalcular" data-bs-target="#modalCalcular" data-bs-toggle="modal" @click="calcularDistancias(grafoJSON, puntoInicio)">CALCULAR</button>
+					<button class="btn btn-primary" id="botonCalcular" data-bs-target="#modalCalcular" data-bs-toggle="modal" @click="calcularDistancias(grafoJSON)">CALCULAR</button>
 				</div>
 			</div>
 
@@ -31,9 +31,11 @@
 						</div>
 						<div class="col text-end">
 							<button v-if="false" class="btn btn-primary py-1">CREAR</button>
+
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
+						<button type="button" @click="mostrar()">Mostrar arreglo</button>
 						<table class="table table-bordered">
 							<thead>
 								<tr class="bg-primary text-light">
@@ -132,7 +134,7 @@
 		data(){
 			return{
 				ruta_selected: {},
-				puntoInicio: this.ruta_selected,
+				nodoInicio: null,
 				grafoJSON : {
   					"ubicaciones": ["A", "B", "C", "D", "E"],
   					"conexiones": [
@@ -151,8 +153,9 @@
 			this.ruta_selected = this.ruta;
 		},
 		methods:{
-			calcularDistancias(grafoJSON, nodoInicio){
-				console.log("test");
+			calcularDistancias(grafoJSON){
+				this.nodoInicio = this.ruta_selected.inicio;
+				console.log(grafoJSON);
 				const ubicaciones = this.grafoJSON.ubicaciones;
 				const conexiones = this.grafoJSON.conexiones;
 
@@ -164,7 +167,7 @@
 					distanciasMinimas[ubicacion] = Infinity;
 				});
 
-				distanciasMinimas[nodoInicio];
+				distanciasMinimas[this.nodoInicio];
 
 				const previos = {};
 
@@ -210,7 +213,7 @@
 			  	};
 
 			  	ubicaciones.forEach(ubicacion => {
-				    if (ubicacion !== nodoInicio) {
+				    if (ubicacion !== this.nodoInicio) {
 				      const ruta = [];
 				      let nodoActual = ubicacion;
 
@@ -227,6 +230,9 @@
 
 				  console.log("Distancias minimas: ", resultados.distanciasMinimas);
 				  console.log("Rutas: ", resultados.rutas );
+			},
+			mostrar(){
+				console.log(this.ruta_selected.inicio);
 			}
 			
 		}

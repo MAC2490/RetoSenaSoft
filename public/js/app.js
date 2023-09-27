@@ -2298,6 +2298,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
@@ -2305,7 +2307,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   data: function data() {
     return {
       ruta_selected: {},
-      puntoInicio: this.ruta_selected,
+      nodoInicio: null,
       grafoJSON: {
         "ubicaciones": ["A", "B", "C", "D", "E"],
         "conexiones": [{
@@ -2344,15 +2346,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     this.ruta_selected = this.ruta;
   },
   methods: {
-    calcularDistancias: function calcularDistancias(grafoJSON, nodoInicio) {
-      console.log("test");
+    calcularDistancias: function calcularDistancias(grafoJSON) {
+      var _this = this;
+      this.nodoInicio = this.ruta_selected.inicio;
+      console.log(grafoJSON);
       var ubicaciones = this.grafoJSON.ubicaciones;
       var conexiones = this.grafoJSON.conexiones;
       var distanciasMinimas = {};
       ubicaciones.forEach(function (ubicacion) {
         distanciasMinimas[ubicacion] = Infinity;
       });
-      distanciasMinimas[nodoInicio];
+      distanciasMinimas[this.nodoInicio];
       var previos = {};
       ubicaciones.forEach(function (ubicacion) {
         previos[ubicacion] = null;
@@ -2394,7 +2398,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         rutas: {}
       };
       ubicaciones.forEach(function (ubicacion) {
-        if (ubicacion !== nodoInicio) {
+        if (ubicacion !== _this.nodoInicio) {
           var ruta = [];
           var nodoActual = ubicacion;
           while (nodoActual !== null) {
@@ -2407,6 +2411,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return resultados;
       console.log("Distancias minimas: ", resultados.distanciasMinimas);
       console.log("Rutas: ", resultados.rutas);
+    },
+    mostrar: function mostrar() {
+      console.log(this.ruta_selected.inicio);
     }
   }
 });
@@ -20891,7 +20898,7 @@ var render = function () {
               },
               on: {
                 click: function ($event) {
-                  return _vm.calcularDistancias(_vm.grafoJSON, _vm.puntoInicio)
+                  return _vm.calcularDistancias(_vm.grafoJSON)
                 },
               },
             },
@@ -20913,6 +20920,19 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.mostrar()
+                  },
+                },
+              },
+              [_vm._v("Mostrar arreglo")]
+            ),
+            _vm._v(" "),
             _c("table", { staticClass: "table table-bordered" }, [
               _c("thead", [
                 _c("tr", { staticClass: "bg-primary text-light" }, [
