@@ -6,6 +6,7 @@ import Vue from 'vue';
 window.Vue = require('vue');
 
 //Lista de componentes
+Vue.component('login', require('./components/Login.vue').default);
 
 Vue.component('index', require('./components/Index.vue').default);
 Vue.component('index-modulo', require('./components/IndexModulos.vue').default);
