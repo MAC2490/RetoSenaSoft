@@ -1,6 +1,5 @@
 <template>
 	<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
-		
 		<div class="col-6 m-0 p-0 row justify-content-center">
 			<div class="col-3 mb-0">
 				<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text" style="margin-top: 33px;">
