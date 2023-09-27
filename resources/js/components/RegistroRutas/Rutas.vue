@@ -1,6 +1,5 @@
 <template>
 	<div class="col-12 col-lg-8 m-0 p-0 mt-2">
-
 		<div v-if="verTablaRutas" class="col-12 m-0 p-0">
 			<div class="col-12 m-0 mb-2 p-0 row justify-content-end">
 				<div class="col">

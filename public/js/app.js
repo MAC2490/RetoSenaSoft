@@ -3076,15 +3076,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3136,7 +3127,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _DetalleRuta_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DetalleRuta.vue */ "./resources/js/components/RegistroRutas/DetalleRuta.vue");
-//
 //
 //
 //
@@ -22532,154 +22522,6 @@ var render = function () {
                 ]),
               ]
             ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal fade",
-                attrs: {
-                  id: "editar",
-                  tabindex: "-1",
-                  "aria-labelledby": "modalEditar",
-                  "aria-hidden": "true",
-                },
-              },
-              [
-                _c("div", { staticClass: "modal-dialog" }, [
-                  _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(9),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body" }, [
-                      _c("div", [
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "nombreUbicacion" },
-                            },
-                            [_vm._v("Nombre de la ruta")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.nombreUbicacion,
-                                expression: "nombreUbicacion",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "email", id: "nombreUbicacion" },
-                            domProps: { value: _vm.nombreUbicacion },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.nombreUbicacion = $event.target.value
-                              },
-                            },
-                          }),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "posX" },
-                            },
-                            [_vm._v("Pos X")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.posXModificar,
-                                expression: "posXModificar",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "email", id: "posXModificar" },
-                            domProps: { value: _vm.posXModificar },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.posXModificar = $event.target.value
-                              },
-                            },
-                          }),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "posY" },
-                            },
-                            [_vm._v("Pos Y")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.posYModificar,
-                                expression: "posYModificar",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "email", id: "posYModificar" },
-                            domProps: { value: _vm.posYModificar },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.posYModificar = $event.target.value
-                              },
-                            },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-bs-dismiss": "modal" },
-                        },
-                        [_vm._v("Cancelar")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function ($event) {
-                              return _vm.registrar()
-                            },
-                          },
-                        },
-                        [_vm._v("Aceptar")]
-                      ),
-                    ]),
-                  ]),
-                ]),
-              ]
-            ),
           ]),
         ]),
       ]),
@@ -22837,27 +22679,6 @@ var staticRenderFns = [
       }),
     ])
   },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
-    ])
-  },
 ]
 render._withStripped = true
 
@@ -22936,57 +22757,6 @@ var render = function () {
           [_vm._v("Ingrese el nombre de la ruta que quiere guardar")]
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
-          _c("div", { staticClass: "col-3 mb-2" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.nombreRuta,
-                  expression: "nombreRuta",
-                },
-              ],
-              staticClass: "form-control text-uppercase",
-              attrs: { id: "campoNombreRuta", type: "text" },
-              domProps: { value: _vm.nombreRuta },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.nombreRuta = $event.target.value
-                },
-              },
-            }),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-3 pt-12",
-              staticStyle: { "margin-top": "32px" },
-            },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "col-12 btn btn-primary",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function ($event) {
-                      return _vm.guardar_ruta()
-                    },
-                  },
-                },
-                [_vm._v("CARGAR")]
-              ),
-            ]
-          ),
-        ]),
-        _vm._v(" "),
         _c(
           "div",
           {
@@ -23004,18 +22774,7 @@ var render = function () {
     ]
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "form-label", attrs: { for: "campoNombreRuta" } },
-      [_c("b", [_vm._v("Nombre Ruta:")])]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
