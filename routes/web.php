@@ -19,3 +19,4 @@ Route::get('/', function () {return view('welcome');});
 
 
 Route::get('/RegistroRutas', [RutasController::class, 'index'] );
+Route::post('/CreacionRutas',[RutasController::class,'registrarRuta']);

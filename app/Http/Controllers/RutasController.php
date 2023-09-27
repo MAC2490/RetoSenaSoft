@@ -9,5 +9,8 @@ class RutasController extends Controller {
 	public function index(){
 		return view('RegistroRutas/index');
 	}
-    
+
+	public function consultarDatosRutas(){
+		#...
+	}
 }

@@ -1,29 +1,27 @@
 <template>
-	<div class="col-12 mt-5">
-		<div id="app">
-			<login></login>
-		</div>
-	<h5> COMPONENTE DE REGISTRO DESDE VUE </h5>
-	<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
-		
-		<div class="col-6 m-0 p-0 row justify-content-center">
-			<div class="col-3 mb-2">
-				<label class="form-label" for="campoNombreRuta"><b>Nombre Ruta:</b></label>
-				<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text">
+	<div>
+		<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
+			
+			<div class="col-6 m-0 p-0 row justify-content-center">
+				<div class="col-3 mb-2">
+					<label class="form-label" for="campoNombreRuta"><b>Nombre Ruta:</b></label>
+					<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text">
+				</div>
+
+				<div class="col-6 mb-2">
+					<label class="form-label" for="campoJson"><b>Archivo JSON:</b></label>
+					<input id="campoJson" class="form-control" type="file" @change="CapturarInformacion">
+				</div>
+				<div class="col-3 pt-12" style="margin-top: 32px;">
+					<button class="col-12 btn btn-primary" type="button" @click="cargarRuta()">CARGAR</button>
+				</div>
 			</div>
 
-			<div class="col-6 mb-2">
-				<label class="form-label" for="campoJson"><b>Archivo JSON:</b></label>
-				<input id="campoJson" class="form-control" type="file" @change="CapturarInformacion">
-			</div>
-			<div class="col-3 pt-12" style="margin-top: 32px;">
-				<button class="col-12 btn btn-primary" type="button" @click="cargarRuta()">CARGAR</button>
+			<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
+				<rutas-component :rutas="rutasCargadas"></rutas-component>
 			</div>
 		</div>
-
-		<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
-			<rutas-component :rutas="rutasCargadas"></rutas-component>
-		</div>
+			
 	</div>
 </template>
 <script>
@@ -77,6 +75,7 @@
 						'inicio': this.datosDePrueba.inicio,
 					}
 					this.rutasCargadas.push( temporal );
+					this.registrarRuta();
 					
 					this.nombreRuta = "";
 				}else{
@@ -86,6 +85,16 @@
 						alert("La informacion del JSON ya se encuentra cargada");
 					}
 				}
+			},
+			registrarRuta(){
+				axios.post('/registrarRuta', {datosDePrueba}).then(resp => {
+					console.log("Respuesta del servidor");
+					console.log(res.data)
+				}).catch(error => {
+					console.log("Error en axios");
+					console.log(error);
+					console.log(error.response);
+				});
 			}
 		}
 	}

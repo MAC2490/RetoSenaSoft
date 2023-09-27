@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('rutas', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('nombre_ruta');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

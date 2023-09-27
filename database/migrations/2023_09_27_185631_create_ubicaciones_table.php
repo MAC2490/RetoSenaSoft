@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('ubicaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreign();
-            $table->string('nombre');
-            $table->unsignedInteger('ruta_id');
+            $table->unsignedBigInteger('ruta_id');
             $table->string('posX');
             $table->string('posY');
             $table->string('nombre');
@@ -36,3 +34,4 @@ return new class extends Migration
         Schema::dropIfExists('ubicaciones');
     }
 };
+

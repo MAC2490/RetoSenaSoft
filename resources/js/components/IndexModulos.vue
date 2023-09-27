@@ -1,6 +1,5 @@
 <template>
 	<div class="col-12 mt-5">
-		
 		<div class="col-12 m-0 p-0 row justify-content-center">
 			<div class="col-7">
 				<a class="col-12 btn btn-outline-primary" href="CargaDatos">MODULO CARGA DE DATOS</a>
@@ -9,7 +8,6 @@
 				<a class="col-12 btn btn-outline-primary" href="RegistroRutas">MODULO REGISTRO DE RUTAS</a>
 			</div>
 		</div>
-
 	</div>
 </template>
 <script>
