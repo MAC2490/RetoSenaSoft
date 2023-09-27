@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ruta', function (Blueprint $table) {
+        Schema::create('ubicaciones', function (Blueprint $table) {
             $table->id();
+            $table->foreign();
             $table->string('nombre');
             $table->string('posX');
             $table->string('posY');
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ruta');
+        Schema::dropIfExists('ubicaciones');
     }
 };
