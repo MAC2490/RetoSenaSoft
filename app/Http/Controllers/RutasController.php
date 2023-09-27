@@ -11,6 +11,19 @@ class RutasController extends Controller {
 		return view('RegistroRutas/index');
 	}
 
+
+	public function cargarRutas(){
+		$ruta = Ruta::get();
+
+		$data = [
+
+			'estado' => true,
+			'ruta' => $ruta
+		];
+
+		return response()->json($data);
+	}
+
 	public function guardar_ruta(Request $request){
 		$ruta = new Ruta();
 		$ruta->user_id = 1;

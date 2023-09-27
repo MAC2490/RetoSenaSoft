@@ -1,0 +1,100 @@
+{
+    "data": {
+        "nodos": [
+            {
+                "id": "A",
+                "posX": 20,
+                "posY": 20,
+                "label": "Nodo A"
+
+            },
+            {
+                "id": "B",
+                "posX": 45,
+                "posY": 60,
+                "label": "Nodo B"
+            },
+            {
+                "id": "C",
+                "posX": 79,
+                "posY": 90,
+                "label": "Nodo C"
+            },
+            {
+                "id": "D",
+                "posX": 56,
+                "posY": 79,
+                "label": "Nodo D"
+            },
+            {
+                "id": "E",
+                "posX": 30,
+                "posY": 40,
+                "label": "Nodo E"
+            },
+            {
+                "id": "F",
+                "posX": 70,
+                "posY": 30,
+                "label": "Nodo F"
+            },
+            {
+                "id": "G",
+                "posX": 10,
+                "posY": 10,
+                "label": "Nodo G"
+            },
+            {
+                "id": "H",
+                "posX": 90,
+                "posY": 90,
+                "label": "Nodo H"
+            },
+            {
+                "id": "I",
+                "posX": 15,
+                "posY": 75,
+                "label": "Nodo I"
+            },
+            {
+                "id": "J",
+                "posX": 50,
+                "posY": 10,
+                "label": "Nodo J"
+            },
+            {
+                "id": "K",
+                "posX": 80,
+                "posY": 45,
+                "label": "Nodo K"
+            },
+            {
+                "id": "L",
+                "posX": 35,
+                "posY": 70,
+                "label": "Nodo L"
+            },
+            {
+                "id": "M",
+                "posX": 65,
+                "posY": 25,
+                "label": "Nodo M"
+            },
+            {
+                "id": "N",
+                "posX": 5,
+                "posY": 55,
+                "label": "Nodo N"
+            }
+        ],
+        "enlaces": [
+            {"source": "A", "target": "B"},
+            {"source": "B", "target": "C"},
+            {"source": "C", "target": "D"},
+            {"source": "B", "target": "D"},
+            {"source": "F", "target": "E"},
+            {"source": "M", "target": "N"}
+
+        ]
+    }
+}

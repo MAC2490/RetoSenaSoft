@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RutasController;
 use App\Http\Controllers\CargaDatosController;
 use App\Http\Controllers\ConexionController;
+use App\Http\Controllers\UbicacionesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,12 @@ use App\Http\Controllers\ConexionController;
 
 Route::get('/', function () {return view('welcome');});
 
+
+
 Route::get('/RegistroRutas', [RutasController::class, 'index'] );
+Route::post('/CreacionRutas',[RutasController::class,'registrarRuta']);
 Route::post('/Registrar_conexiones', [ConexionController::class, 'registrar']);
 Route::post('/guardar_ruta', [RutasController::class, 'guardar_ruta']);
+Route::get('/cargarDatos', [CargaDatosController::class, 'index']);
+Route::get('/cargarRutas', [RutasController::class, 'cargarRutas']);
+Route::post('/Registrar_ubicaciones', [UbicacionesController::class, 'registrar_ubicaciones']);

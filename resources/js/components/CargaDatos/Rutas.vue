@@ -6,6 +6,9 @@
 				<div class="col">
 					<h4>RUTAS:</h4>
 				</div>
+				<div class="col-auto p-0">
+					<button v-if="false" class="btn btn-primary">CREAR</button>
+				</div>
 			</div>
 			<table class="table table-bordered">
 				<thead>
@@ -17,9 +20,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="ruta in listaRutas">
-						<td>{{ ruta.id }}</td>
-						<td>{{ ruta.nombre_ruta }}</td>
+					<tr v-for="(ruta, index) in listaRutas">
+						<td>{{ (index+1) }}</td>
+						<td>{{ ruta.ruta }}</td>
 						<td class="text-center"> <span v-for="(ubicacion, ind) in ruta.ubicaciones">{{ ((ind!=0)? ' - ':'')+ubicacion.nombre }}</span> </td>
 						<td class="text-center">
 							<button class="btn btn-primary" @click="verDetalleRuta(ruta)">DETALLE</button>
@@ -49,7 +52,6 @@
 		},
 		created(){
 			this.listaRutas = this.rutas;
-			this.cargarRutas();
 		},
 		methods:{
 			regresar(){
@@ -59,20 +61,7 @@
 			verDetalleRuta(ruta){
 				this.verTablaRutas = false;
 				this.ruta_selected = ruta;
-
-			},
-			cargarRutas(){
-				axios.get('/cargarRutas').then(resp =>{
-					console.log('Datos cargados');
-					console.log(resp.data);
-					this.listaRutas = resp.data.ruta;
-				}).catch(error =>{
-					console.log("No se cargaron los datos");
-					console.log(error);
-					console.log(error.response);
-				})
 			}
-
 		}
 	}
 </script>

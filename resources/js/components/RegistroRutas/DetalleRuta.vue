@@ -51,7 +51,7 @@
 									<td>{{ ubicacion.posX }}</td>
 									<td>{{ ubicacion.posY }}</td>
 									<td>
-										<button class="btn btn-primary">EDIT.</button>
+										<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" @click="enviarDatos(ubicacion)">EDIT.</button>
 									</td>
 								</tr>
 							</tbody>
@@ -103,7 +103,7 @@
 									<div class="modal-body">
 										<div>
 											<div class="mb-3">
-												<label for="nombre_ruta" class="form-label">Nombre de la ruta</label>
+												<label for="nombre_ruta" class="form-label">Nombre de la ubicacion</label>
 												<input v-model="nombre_ruta" type="email" class="form-control" id="nombre_ruta">
 											</div>
 											<div class="mb-3">
@@ -155,6 +155,39 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- Modal editar -->
+						<!-- <div class="modal fade" id="editar" tabindex="-1" aria-labelledby="modalEditar" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div class="mb-3">
+										<label for="nombreUbicacion" class="form-label">Nombre de la ruta</label>
+										<input v-model="nombreUbicacion" type="email" class="form-control" id="nombreUbicacion">
+									</div>
+									<div class="mb-3">
+										<label for="posX" class="form-label">Pos X</label>
+										<input v-model="posXModificar" type="email" class="form-control" id="posXModificar">
+									</div>
+									<div class="mb-3">
+										<label for="posY" class="form-label">Pos Y</label>
+										<input v-model="posYModificar" type="email" class="form-control" id="posYModificar">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+								<button type="button" class="btn btn-primary" @click="registrar()">Aceptar</button>
+							</div>
+							</div>
+						</div>
+						</div> -->
+
 					</div>
 				</div>
 			</div>
@@ -185,8 +218,19 @@
 		},
 		methods:{
 			registrar_ubicacion(){
-				
+				const nombre_ruta = this.nombre_ruta;
+				const posX = this.posX;
+				const posY = this.posY;
+				const id_ruta = this.ruta_selected.id; 
+				axios.post('/Registrar_ubicaciones', {nombre_ruta, posX, posY, id_ruta}).then(res => {
+					console.log('Respuesta del servidor');
+					console.log(res.data);
+				}).catch(error => {
+					console.log('Error en axios');
+					console.log(error.response);
+				});
 			},
+
 			registrar_conexiones(){
 				const ubicacion1 = this.ubicacion1;
 				const ubicacion2 = this.ubicacion2;
@@ -199,7 +243,8 @@
 					console.log( error );
 					console.log( error.response );
 				});
-			}
+
+			},
 		}
 	}
 </script>
