@@ -64,7 +64,7 @@
 							<h6 class="mt-3">CONEXIONES DE LA RUTA:</h6>
 						</div>
 						<div class="col text-end">
-							<button class="btn btn-primary py-1" data-bs-toggle="modal" data-bs-target="#crear_ruta">CREAR</button>
+							<button class="btn btn-primary py-1" @click="abrirModalCrearConexion()">CREAR</button>
 						</div>
 					</div>
 					<div class="col-12 m-0 p-0">
@@ -85,7 +85,7 @@
 									<td>{{ conexion.ubicacion2 }}</td>
 									<td>{{ conexion.peso }}</td>
 									<td>
-										<button class="btn btn-primary">EDIT.</button>
+										<button class="btn btn-primary" @click="abrirModalEditarConexion(conexion)">EDIT.</button>
 									</td>
 								</tr>
 							</tbody>
@@ -123,7 +123,7 @@
 								</div>
 							</div>
 						</div>
-
+						<!-- modal editar ubicacion -->
 						<div class="modal fade" id="modificar_ubicacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -155,8 +155,8 @@
 							</div>
 						</div>
 
-						<!-- Modal crear ruta -->
-						<div class="modal fade" id="crear_ruta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<!-- Modal crear conexion -->
+						<div class="modal fade" id="crearConexion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -167,11 +167,11 @@
 										<div>
 											<div class="mb-3">
 												<label for="ubicacion1" class="form-label">ubicacion 1</label>
-												<input v-model="ubicacion1" type="email" class="form-control" id="ubicacion1">
+												<input v-model="ubicacion1" type="email" class="text-uppercase form-control" id="ubicacion1">
 											</div>
 											<div class="mb-3">
 												<label for="ubicacion2" class="form-label">ubicacion 2</label>
-												<input v-model="ubicacion2" type="email" class="form-control" id="ubicacion2">
+												<input v-model="ubicacion2" type="email" class="text-uppercase form-control" id="ubicacion2">
 											</div>
 											<div class="mb-3">
 												<label for="peso" class="form-label">Peso</label>
@@ -180,44 +180,44 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-										<button type="button" class="btn btn-primary" @click="registrar_conexiones()">Aceptar</button>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModalConexion()">Cancelar</button>
+										<button type="button" class="btn btn-primary" @click="registrarConexiones()">Aceptar</button>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<!-- Modal editar -->
-						<!-- <div class="modal fade" id="editar" tabindex="-1" aria-labelledby="modalEditar" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div class="mb-3">
-										<label for="nombreUbicacion" class="form-label">Nombre de la ubicación</label>
-										<input v-model="ubicacionModificar.nombre" type="text" class="form-control" id="nombreUbicacion">
+						<!-- Modal editar conexion -->
+						<div class="modal fade" id="modificarConexion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
-									<div class="mb-3">
-										<label for="posX" class="form-label">Pos X</label>
-										<input v-model="ubicacionModificar.posX" type="number" class="form-control" id="posXModificar">
+									<div class="modal-body">
+										<div>
+											<div class="mb-3">
+												<label for="ubicacion1" class="form-label">ubicacion 1</label>
+												<input v-model="conexionUbicacion1" type="email" class="text-uppercase form-control" id="ubicacion1">
+											</div>
+											<div class="mb-3">
+												<label for="ubicacion2" class="form-label">ubicacion 2</label>
+												<input v-model="conexionUbicacion2" type="email" class="text-uppercase form-control" id="ubicacion2">
+											</div>
+											<div class="mb-3">
+												<label for="peso" class="form-label">Peso</label>
+												<input v-model="conexionPeso" type="email" class="form-control" id="peso">
+											</div>
+										</div>
 									</div>
-									<div class="mb-3">
-										<label for="posY" class="form-label">Pos Y</label>
-										<input v-model="ubicacionModificar.posY" type="number" class="form-control" id="posYModificar">
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModalEditarConexion()">Cancelar</button>
+										<button type="button" class="btn btn-primary" @click="editarConexion()">Aceptar</button>
 									</div>
 								</div>
 							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-								<button type="button" class="btn btn-primary" @click="registrar()">Aceptar</button>
-							</div>
-							</div>
 						</div>
-						</div> -->
 
 					</div>
 				</div>
@@ -265,7 +265,8 @@
 				listaConexiones: [],
 				modalCrearUbicacion: null,
 				modalEditarUbicacion: null,
-
+				modalCrearConexion: null,
+				modalEditarConexion: null,
 				// Modal de Calculo de Peso Minimo
 				modalCalcular: null,
 				componenteDijkstra: false,
@@ -284,6 +285,14 @@
 				ubicacionModificar : '',
 				posXModificar : '',
 				posYModificar : '',
+
+				// datat de modificar conexion
+				conexionUbicacion1: '',
+				conexionUbicacion2: '',
+				conexionPeso: '',
+				conexionId: '',
+
+				validarUbicacio: true,
 
 			};
 		},
@@ -382,21 +391,77 @@
 					console.log(error.response);
 				});
 			},
-			registrar_conexiones(){
-				const ubicacion1 = this.ubicacion1;
-				const ubicacion2 = this.ubicacion2;
+			registrarConexiones(){
+				const id_ruta = this.ruta_selected.id;
+				const ubicacion1 = this.ubicacion1.toUpperCase();
+				const ubicacion2 = this.ubicacion2.toUpperCase();
 				const peso = this.peso;
-				axios.post('/Registrar_conexiones', { ubicacion1, ubicacion2, peso }).then(res => {
-					console.log("Respuesta del servidor");
+
+				axios.post('/Registrar_conexiones', { ubicacion1, ubicacion2, peso, id_ruta }).then(res => {
+					console.log('Respuesta del servidor');
 					console.log(res.data);
+					
+					this.ruta_selected.conexiones.push(res.data.conexion);
+					this.cerrarModalConexion();
 				}).catch(error => {
 					console.log("Error en axios");
 					console.log( error );
 					console.log( error.response );
-				});
+				});	
 			},
 			mostrarDatosUbicacion(ubicacion){
 				this.ubicacionModificar = ubicacion;
+			},
+			abrirModalCrearConexion(){
+				this.ubicacion1 = "",
+				this.ubicacion2 = "",
+				this.peso = "",
+
+				this.modalCrearConexion = new bootstrap.Modal(document.getElementById('crearConexion'), {keyboard: false, backdrop:'static'});
+				this.modalCrearConexion.show();
+			},
+			cerrarModalConexion(){
+				if (this.modalCrearConexion != null) {
+					this.modalCrearConexion.hide();
+				}
+			},	
+			abrirModalEditarConexion(conexion){
+				this.conexionUbicacion1 = conexion.ubicacion1;
+				this.conexionUbicacion2 = conexion.ubicacion2;
+				this.conexionPeso = conexion.peso;
+				this.conexionId = conexion.id;
+
+				this.modalEditarConexion = new bootstrap.Modal(document.getElementById('modificarConexion'), {keyboard: false, backdrop:'static'});
+				this.modalEditarConexion.show();
+			},
+			cerrarModalEditarConexion(){
+				if (this.modalEditarConexion != null) {
+					this.modalEditarConexion.hide();
+				}
+			},
+			editarConexion(){
+				const conexionUbicacion1 = this.conexionUbicacion1.toUpperCase();
+				const conexionUbicacion2 = this.conexionUbicacion2.toUpperCase();
+				const conexionPeso = this.conexionPeso;
+				const conexionId = this.conexionId;
+
+				axios.post('/EditarConexion', {conexionUbicacion1, conexionUbicacion2, conexionPeso, conexionId}).then(res => {
+					console.log('Respuesta del servidor - Edicion ubicacion');
+					console.log(res.data);
+					
+					for (var i = 0; i < this.ruta_selected.conexiones.length; i++) {
+						if (this.ruta_selected.conexiones[i].id == conexionId){
+							this.ruta_selected.conexiones[i] = res.data.conexion;
+							break;
+						}
+					}
+
+					this.cerrarModalEditarConexion();
+				}).catch(error => {
+					console.log('Error en axios');
+					console.log(error);
+					console.log(error.response);
+				});
 			},
 		}
 	}
