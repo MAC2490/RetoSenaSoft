@@ -4,7 +4,7 @@
 			<form>
 				<input type="file" @change="CapturarInformacion">
 				<button type="button" @click="mostrarGrafo(lista_datos)">Mostrar</button>
-				<svg id="grafo" width="1000" height="1000"></svg>
+				<svg id="grafo" width="400" height="400"></svg>
 			</form>
 		</div>
 	</section>
@@ -76,12 +76,12 @@
 					  .attr('r', 20)
 					  .attr('fill', 'red');
 					
-					// Agrega eventos de arrastre a los nodos
-					nodos.call(d3.drag()
-					  .on('start', dragStarted)
-					  .on('drag', dragged)
-					  .on('end', dragEnded)
-					);
+					// // Agrega eventos de arrastre a los nodos
+					// nodos.call(d3.drag()
+					//   .on('start', dragStarted)
+					//   .on('drag', dragged)
+					//   .on('end', dragEnded)
+					// );
 					
 
 					// Actualiza la posición de los elementos en cada iteración de la simulación
@@ -97,12 +97,12 @@
 					    .attr('cy', d => d.y);
 					});
 					
-					// Funciones para el arrastre de nodos
-					function dragStarted(event, d) {
-					  if (!event.active) simulation.alphaTarget(0.3).restart();
-					  d.fx = d.x;
-					  d.fy = d.y;
-					}
+					// // Funciones para el arrastre de nodos
+					// function dragStarted(event, d) {
+					//   if (!event.active) simulation.alphaTarget(0.3).restart();
+					//   d.fx = d.x;
+					//   d.fy = d.y;
+					// }
 					
 					function dragged(event, d) {
 					  d.fx = event.x;

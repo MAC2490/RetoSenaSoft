@@ -2618,12 +2618,12 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.datosDePrueba);
       console.log("joker");
       if (this.datosDePrueba) {
-        // Funciones para el arrastre de nodos
-        var dragStarted = function dragStarted(event, d) {
-          if (!event.active) simulation.alphaTarget(0.3).restart();
-          d.fx = d.x;
-          d.fy = d.y;
-        };
+        // // Funciones para el arrastre de nodos
+        // function dragStarted(event, d) {
+        //   if (!event.active) simulation.alphaTarget(0.3).restart();
+        //   d.fx = d.x;
+        //   d.fy = d.y;
+        // }
         var dragged = function dragged(event, d) {
           d.fx = event.x;
           d.fy = event.y;
@@ -2645,8 +2645,12 @@ __webpack_require__.r(__webpack_exports__);
         // Crea los nodos
         var nodos = svg.selectAll('circle').data(lista_datos.ubicaciones).enter().append('circle').attr('r', 20).attr('fill', 'red');
 
-        // Agrega eventos de arrastre a los nodos
-        nodos.call(d3__WEBPACK_IMPORTED_MODULE_0__.drag().on('start', dragStarted).on('drag', dragged).on('end', dragEnded));
+        // // Agrega eventos de arrastre a los nodos
+        // nodos.call(d3.drag()
+        //   .on('start', dragStarted)
+        //   .on('drag', dragged)
+        //   .on('end', dragEnded)
+        // );
 
         // Actualiza la posición de los elementos en cada iteración de la simulación
         simulation.on('tick', function () {
@@ -21880,7 +21884,7 @@ var render = function () {
           [_vm._v("Mostrar")]
         ),
         _vm._v(" "),
-        _c("svg", { attrs: { id: "grafo", width: "1000", height: "1000" } }),
+        _c("svg", { attrs: { id: "grafo", width: "400", height: "400" } }),
       ]),
     ]),
   ])
