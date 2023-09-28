@@ -3175,6 +3175,8 @@ __webpack_require__.r(__webpack_exports__);
       listaConexiones: [],
       modalCrearUbicacion: null,
       modalEditarUbicacion: null,
+      modalCrearConexion: null,
+      modalEditarConexion: null,
       // Modal de Calculo de Peso Minimo
       modalCalcular: null,
       componenteDijkstra: false,
@@ -3190,7 +3192,13 @@ __webpack_require__.r(__webpack_exports__);
       ubicacionId: '',
       ubicacionModificar: '',
       posXModificar: '',
-      posYModificar: ''
+      posYModificar: '',
+      // datat de modificar conexion
+      conexionUbicacion1: '',
+      conexionUbicacion2: '',
+      conexionPeso: '',
+      conexionId: '',
+      validarUbicacio: true
     };
   },
   created: function created() {
@@ -3299,17 +3307,22 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response);
       });
     },
-    registrar_conexiones: function registrar_conexiones() {
-      var ubicacion1 = this.ubicacion1;
-      var ubicacion2 = this.ubicacion2;
+    registrarConexiones: function registrarConexiones() {
+      var _this3 = this;
+      var id_ruta = this.ruta_selected.id;
+      var ubicacion1 = this.ubicacion1.toUpperCase();
+      var ubicacion2 = this.ubicacion2.toUpperCase();
       var peso = this.peso;
       axios.post('/Registrar_conexiones', {
         ubicacion1: ubicacion1,
         ubicacion2: ubicacion2,
-        peso: peso
+        peso: peso,
+        id_ruta: id_ruta
       }).then(function (res) {
-        console.log("Respuesta del servidor");
+        console.log('Respuesta del servidor');
         console.log(res.data);
+        _this3.ruta_selected.conexiones.push(res.data.conexion);
+        _this3.cerrarModalConexion();
       })["catch"](function (error) {
         console.log("Error en axios");
         console.log(error);
@@ -3318,6 +3331,61 @@ __webpack_require__.r(__webpack_exports__);
     },
     mostrarDatosUbicacion: function mostrarDatosUbicacion(ubicacion) {
       this.ubicacionModificar = ubicacion;
+    },
+    abrirModalCrearConexion: function abrirModalCrearConexion() {
+      this.ubicacion1 = "", this.ubicacion2 = "", this.peso = "", this.modalCrearConexion = new bootstrap.Modal(document.getElementById('crearConexion'), {
+        keyboard: false,
+        backdrop: 'static'
+      });
+      this.modalCrearConexion.show();
+    },
+    cerrarModalConexion: function cerrarModalConexion() {
+      if (this.modalCrearConexion != null) {
+        this.modalCrearConexion.hide();
+      }
+    },
+    abrirModalEditarConexion: function abrirModalEditarConexion(conexion) {
+      this.conexionUbicacion1 = conexion.ubicacion1;
+      this.conexionUbicacion2 = conexion.ubicacion2;
+      this.conexionPeso = conexion.peso;
+      this.conexionId = conexion.id;
+      this.modalEditarConexion = new bootstrap.Modal(document.getElementById('modificarConexion'), {
+        keyboard: false,
+        backdrop: 'static'
+      });
+      this.modalEditarConexion.show();
+    },
+    cerrarModalEditarConexion: function cerrarModalEditarConexion() {
+      if (this.modalEditarConexion != null) {
+        this.modalEditarConexion.hide();
+      }
+    },
+    editarConexion: function editarConexion() {
+      var _this4 = this;
+      var conexionUbicacion1 = this.conexionUbicacion1.toUpperCase();
+      var conexionUbicacion2 = this.conexionUbicacion2.toUpperCase();
+      var conexionPeso = this.conexionPeso;
+      var conexionId = this.conexionId;
+      axios.post('/EditarConexion', {
+        conexionUbicacion1: conexionUbicacion1,
+        conexionUbicacion2: conexionUbicacion2,
+        conexionPeso: conexionPeso,
+        conexionId: conexionId
+      }).then(function (res) {
+        console.log('Respuesta del servidor - Edicion ubicacion');
+        console.log(res.data);
+        for (var i = 0; i < _this4.ruta_selected.conexiones.length; i++) {
+          if (_this4.ruta_selected.conexiones[i].id == conexionId) {
+            _this4.ruta_selected.conexiones[i] = res.data.conexion;
+            break;
+          }
+        }
+        _this4.cerrarModalEditarConexion();
+      })["catch"](function (error) {
+        console.log('Error en axios');
+        console.log(error);
+        console.log(error.response);
+      });
     }
   }
 });
@@ -22663,7 +22731,24 @@ var render = function () {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col border ms-1" }, [
-          _vm._m(3),
+          _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "col text-end" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary py-1",
+                  on: {
+                    click: function ($event) {
+                      return _vm.abrirModalCrearConexion()
+                    },
+                  },
+                },
+                [_vm._v("CREAR")]
+              ),
+            ]),
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
             _c("table", { staticClass: "table table-bordered" }, [
@@ -22681,7 +22766,20 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(conexion.peso))]),
                     _vm._v(" "),
-                    _vm._m(5, true),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          on: {
+                            click: function ($event) {
+                              return _vm.abrirModalEditarConexion(conexion)
+                            },
+                          },
+                        },
+                        [_vm._v("EDIT.")]
+                      ),
+                    ]),
                   ])
                 }),
                 0
@@ -23037,7 +23135,7 @@ var render = function () {
               {
                 staticClass: "modal fade",
                 attrs: {
-                  id: "crear_ruta",
+                  id: "crearConexion",
                   tabindex: "-1",
                   "aria-labelledby": "exampleModalLabel",
                   "aria-hidden": "true",
@@ -23046,7 +23144,7 @@ var render = function () {
               [
                 _c("div", { staticClass: "modal-dialog" }, [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(6),
+                    _vm._m(5),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", [
@@ -23069,7 +23167,7 @@ var render = function () {
                                 expression: "ubicacion1",
                               },
                             ],
-                            staticClass: "form-control",
+                            staticClass: "text-uppercase form-control",
                             attrs: { type: "email", id: "ubicacion1" },
                             domProps: { value: _vm.ubicacion1 },
                             on: {
@@ -23102,7 +23200,7 @@ var render = function () {
                                 expression: "ubicacion2",
                               },
                             ],
-                            staticClass: "form-control",
+                            staticClass: "text-uppercase form-control",
                             attrs: { type: "email", id: "ubicacion2" },
                             domProps: { value: _vm.ubicacion2 },
                             on: {
@@ -23157,6 +23255,11 @@ var render = function () {
                         {
                           staticClass: "btn btn-secondary",
                           attrs: { type: "button", "data-bs-dismiss": "modal" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.cerrarModalConexion()
+                            },
+                          },
                         },
                         [_vm._v("Cancelar")]
                       ),
@@ -23168,7 +23271,160 @@ var render = function () {
                           attrs: { type: "button" },
                           on: {
                             click: function ($event) {
-                              return _vm.registrar_conexiones()
+                              return _vm.registrarConexiones()
+                            },
+                          },
+                        },
+                        [_vm._v("Aceptar")]
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "modificarConexion",
+                  tabindex: "-1",
+                  "aria-labelledby": "exampleModalLabel",
+                  "aria-hidden": "true",
+                },
+              },
+              [
+                _c("div", { staticClass: "modal-dialog" }, [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", [
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "ubicacion1" },
+                            },
+                            [_vm._v("ubicacion 1")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.conexionUbicacion1,
+                                expression: "conexionUbicacion1",
+                              },
+                            ],
+                            staticClass: "text-uppercase form-control",
+                            attrs: { type: "email", id: "ubicacion1" },
+                            domProps: { value: _vm.conexionUbicacion1 },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.conexionUbicacion1 = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "ubicacion2" },
+                            },
+                            [_vm._v("ubicacion 2")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.conexionUbicacion2,
+                                expression: "conexionUbicacion2",
+                              },
+                            ],
+                            staticClass: "text-uppercase form-control",
+                            attrs: { type: "email", id: "ubicacion2" },
+                            domProps: { value: _vm.conexionUbicacion2 },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.conexionUbicacion2 = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "peso" },
+                            },
+                            [_vm._v("Peso")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.conexionPeso,
+                                expression: "conexionPeso",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email", id: "peso" },
+                            domProps: { value: _vm.conexionPeso },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.conexionPeso = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button", "data-bs-dismiss": "modal" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.cerrarModalEditarConexion()
+                            },
+                          },
+                        },
+                        [_vm._v("Cancelar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.editarConexion()
                             },
                           },
                         },
@@ -23300,24 +23556,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
-      _c("div", { staticClass: "col-auto" }, [
-        _c("h6", { staticClass: "mt-3" }, [_vm._v("CONEXIONES DE LA RUTA:")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col text-end" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary py-1",
-            attrs: {
-              "data-bs-toggle": "modal",
-              "data-bs-target": "#crear_ruta",
-            },
-          },
-          [_vm._v("CREAR")]
-        ),
-      ]),
+    return _c("div", { staticClass: "col-auto" }, [
+      _c("h6", { staticClass: "mt-3" }, [_vm._v("CONEXIONES DE LA RUTA:")]),
     ])
   },
   function () {
@@ -23342,8 +23582,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("EDIT.")]),
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
     ])
   },
   function () {
