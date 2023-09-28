@@ -2585,11 +2585,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    lista_datos: ''
-  },
+  components: {},
   data: function data() {
     return {
+      lista_datos: '',
       datosDePrueba: null
     };
   },
@@ -2982,7 +2981,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     cargarUbicaciones: function cargarUbicaciones() {
       var _this = this;
-      axios.get('/cargarUbicaciones').then(function (resp) {
+      console.log(this.ruta_selected.id);
+      axios.get("/cargarUbicaciones/".concat(this.ruta_selected.id)).then(function (resp) {
         console.log('Datos cargados');
         console.log(resp.data);
         _this.listaUbicaciones = resp.data.ubicacion;

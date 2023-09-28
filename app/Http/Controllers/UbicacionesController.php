@@ -13,9 +13,11 @@ class UbicacionesController extends Controller
         
     }
 
-    public function cargarUbicaciones(){
+    public function cargarUbicaciones(Ubicacione $id){
 
-        $ubicacion = Ubicacione::get();
+        $ubicacion = Ubicacione::find($id);
+
+        
         $data = [
             'estado' => true,
             'ubicacion' => $ubicacion

@@ -27,5 +27,6 @@ Route::post('/guardar_ruta', [RutasController::class, 'guardar_ruta']);
 Route::get('/cargarDatos', [CargaDatosController::class, 'index']);
 Route::get('/cargarRutas', [RutasController::class, 'cargarRutas']);
 Route::put('/modificarUbicacion/{id}', [UbicacionesController::class, 'modificarUbicaciones']);
-Route::get('/cargarUbicaciones', [UbicacionesController::class, 'cargarUbicaciones']);
+Route::get('/cargarUbicaciones/{id}', [UbicacionesController::class, 'cargarUbicaciones']);
 Route::get('/cargarConexiones', [UbicacionesController::class, 'cargarConexiones']);
+

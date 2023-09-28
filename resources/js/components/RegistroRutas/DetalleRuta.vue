@@ -247,7 +247,8 @@
 				this.ubicacionModificar = ubicacion;
 			},
 			cargarUbicaciones(){
-				axios.get('/cargarUbicaciones').then(resp =>{
+				console.log(this.ruta_selected.id)
+				axios.get(`/cargarUbicaciones/${this.ruta_selected.id}`).then(resp =>{
 					console.log('Datos cargados');
 					console.log(resp.data);
 					this.listaUbicaciones = resp.data.ubicacion;
@@ -267,9 +268,6 @@
 					console.log(error);
 					console.log(error.response);
 				})
-					
-
-				
 			}
 		}
 	}
