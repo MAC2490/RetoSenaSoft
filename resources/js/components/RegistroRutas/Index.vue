@@ -10,7 +10,7 @@
 			</div>
 			<div id="emailHelp" class="text-center form-text">Ingrese el nombre de la ruta que quiere guardar</div>
 		</div>
-		<rutas-component :rutas="ruta"></rutas-component>
+		<rutas-component v-if="verTablaRutas" :rutas="listaRutas"></rutas-component>
 	</div>
 </template>
 <script>
@@ -23,22 +23,29 @@
 			return{
 				nombreRuta: "",
 				ruta: '',
+				listaRutas: [],
 				verGuardarRuta:true,
-
+				verTablaRutas:false,
 			};
 		},
 		created(){
-			
+			this.cargarRutas();	
 		},
 		methods:{
 			guardar_ruta(){
-				const rutas = this.nombreRuta;
+				let rutas = this.nombreRuta;
 				if (rutas!=null) {
+					rutas = rutas.toUpperCase();
 					axios.post('/guardar_ruta',{rutas}).then(res => {
 						console.log("Respuesta del servidor");
 						console.log(res.data);
-						this.ruta = res.data;
+						this.listaRutas = res.data.listaRutas;
 						this.nombreRuta = "";
+						
+						this.verTablaRutas = false;
+						setTimeout(() => {
+		                    this.verTablaRutas = true;
+		                }, 200);
 					}).catch(error => {
 						console.log("Error en axios");
 						console.log(error);
@@ -47,6 +54,19 @@
 				}else{
 					
 				}
+			},
+			cargarRutas(){
+				this.verTablaRutas = false;
+				axios.get('/cargarRutas').then(resp =>{
+					console.log('Datos cargados');
+					console.log(resp.data);
+					this.listaRutas = resp.data.listaRutas;
+					this.verTablaRutas = true;
+				}).catch(error =>{
+					console.log("No se cargaron los datos");
+					console.log(error);
+					console.log(error.response);
+				})
 			},
 		}
 	}

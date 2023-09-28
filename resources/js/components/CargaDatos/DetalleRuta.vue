@@ -19,7 +19,7 @@
 					</select>
 				</div>
 				<div class="col-auto">
-					<button class="btn btn-primary" id="botonCalcular" data-bs-target="#modalCalcular" data-bs-toggle="modal" @click="calcularDistancias(grafoJSON)">CALCULAR</button>
+					<button class="btn btn-primary" @click="abrirModalCalcular()">CALCULAR</button>
 				</div>
 			</div>
 
@@ -101,60 +101,68 @@
 
 
 		<!-- Modal -->
-	<div class="modal fade" id="modalCalcular" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-			        <h1 class="modal-title fs-5" id="exampleModalLabel">Calculo de conexión más corta</h1>
-			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		<div class="modal fade" id="modalCalcular" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+				    <div class="modal-header">
+				        <h1 class="modal-title fs-5 text-uppercase" id="exampleModalLabel">Calculo de conexión más corta - Menos Peso</h1>
+				        <button type="button" class="btn-close" @click="cerrarModalCalcular()"></button>
+				    </div>
+				    <div class="modal-body">
+				    	<div class="col-12 m-0 p-0 row h-100">
+				    		<div class="col-5 m-0 p-0 h-100">
+			        			<dijkstra-component v-if="componenteDijkstra" :ruta_selected="ruta_selected" ></dijkstra-component>
+				    		</div>
+				    		<div class="col m-0 p-0 h-100">
+			        			DIBUJO GRAFO
+				    		</div>
+				    	</div>
+
+			      	</div>
+			      	<div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" @click="cerrarModalCalcular()">CERRAR</button>
+			      	</div>
 			    </div>
-			    <div class="modal-body">
-		        	
-		      	</div>
-		      	<div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
-		      	</div>
-		    </div>
+			</div>
 		</div>
-	</div>
-
-
 
 
 	</div>
 </template>
 <script>
-	
+	import Dijkstra from "../Dijkstra.vue";
 	export default{
 		props: [ 'ruta' ],
 		components: {
-			
+			'dijkstra-component': Dijkstra,
 		},
 		data(){
 			return{
 				ruta_selected: {},
 				nodoInicio: null,
-				grafoJSON : {
-  					"ubicaciones": ["A", "B", "C", "D", "E"],
-  					"conexiones": [
-    					{ "origen": "A", "destino": "C", "peso": "3"},
-    					{ "origen": "B", "destino": "C", "peso": "4"},
-    					{ "origen": "B", "destino": "D" , "peso": "5"},
-    					{ "origen": "A", "destino": "B", "peso": "1"},
-    					{ "origen": "C", "destino": "D", "peso": "7"},
-    					{ "origen": "C", "destino": "E", "peso": "9"},
-    					{ "origen": "E", "destino": "D", "peso": "2"}
-					  ]
-					},
+				modalCalcular: null,
+				componenteDijkstra: false,
 			};
 		},
 		created(){
 			this.ruta_selected = this.ruta;
 		},
 		methods:{
-			
-			
+			abrirModalCalcular(){
+				if (this.ruta_selected.inicio!=""){
+					this.modalCalcular = new bootstrap.Modal(document.getElementById('modalCalcular'), {keyboard: false, backdrop:'static'});
+					this.modalCalcular.show();
+					this.componenteDijkstra = true;
+				}else{
+					alert("Se debe seleccionar un punto de inicio.");
+				}
+			},
+			cerrarModalCalcular(){
+				if (this.modalCalcular!=null){
+					this.modalCalcular.hide();
+					this.componenteDijkstra = false;
+				}
+			},
 			
 		}
 	}
