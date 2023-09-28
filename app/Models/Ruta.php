@@ -21,4 +21,8 @@ class Ruta extends Model
     public function ubicacion(){
         return $this->hasMany(Ubicacion::class, 'ruta_id');
     }
+
+    public function conexion(){
+        return $this->hasMany(Conexione::class, 'ruta_id');
+    }
 }

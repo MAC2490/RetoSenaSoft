@@ -2167,6 +2167,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Dijkstra.vue */ "./resources/js/components/Dijkstra.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2294,51 +2300,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
-  components: {},
+  components: {
+    'dijkstra-component': _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       ruta_selected: {},
       nodoInicio: null,
-      grafoJSON: {
-        "ubicaciones": ["A", "B", "C", "D", "E"],
-        "conexiones": [{
-          "origen": "A",
-          "destino": "C",
-          "peso": "3"
-        }, {
-          "origen": "B",
-          "destino": "C",
-          "peso": "4"
-        }, {
-          "origen": "B",
-          "destino": "D",
-          "peso": "5"
-        }, {
-          "origen": "A",
-          "destino": "B",
-          "peso": "1"
-        }, {
-          "origen": "C",
-          "destino": "D",
-          "peso": "7"
-        }, {
-          "origen": "C",
-          "destino": "E",
-          "peso": "9"
-        }, {
-          "origen": "E",
-          "destino": "D",
-          "peso": "2"
-        }]
-      }
+      modalCalcular: null,
+      componenteDijkstra: false
     };
   },
   created: function created() {
     this.ruta_selected = this.ruta;
   },
-  methods: {}
+  methods: {
+    abrirModalCalcular: function abrirModalCalcular() {
+      if (this.ruta_selected.inicio != "") {
+        this.modalCalcular = new bootstrap.Modal(document.getElementById('modalCalcular'), {
+          keyboard: false,
+          backdrop: 'static'
+        });
+        this.modalCalcular.show();
+        this.componenteDijkstra = true;
+      } else {
+        alert("Se debe seleccionar un punto de inicio.");
+      }
+    },
+    cerrarModalCalcular: function cerrarModalCalcular() {
+      if (this.modalCalcular != null) {
+        this.modalCalcular.hide();
+        this.componenteDijkstra = false;
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -2559,6 +2557,181 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['ruta_selected'],
+  data: function data() {
+    return {
+      data: {
+        ubicaciones: [{
+          nombre: "A",
+          posX: 20,
+          posY: 20
+        }, {
+          nombre: "B",
+          posX: 45,
+          posY: 60
+        }, {
+          nombre: "C",
+          posX: 79,
+          posY: 90
+        }, {
+          nombre: "D",
+          posX: 56,
+          posY: 79
+        }],
+        conexiones: [{
+          ubicacion1: "A",
+          ubicacion2: "B",
+          peso: 20
+        }, {
+          ubicacion1: "B",
+          ubicacion2: "C",
+          peso: 20
+        }, {
+          ubicacion1: "C",
+          ubicacion2: "D",
+          peso: 50
+        }, {
+          ubicacion1: "D",
+          ubicacion2: "A",
+          peso: 50
+        }],
+        inicio: "D",
+        ruta: "RUTA PRUEBA"
+      },
+      ubicaciones: [],
+      conexiones: [],
+      inicio: "",
+      ruta: "",
+      pesoAcumulado: {},
+      rutaConMenorPeso: {}
+    };
+  },
+  created: function created() {
+    this.ubicaciones = this.ruta_selected != undefined ? this.ruta_selected.ubicaciones : this.data.ubicaciones;
+    this.conexiones = this.ruta_selected != undefined ? this.ruta_selected.conexiones : this.data.conexiones;
+    this.inicio = this.ruta_selected != undefined ? this.ruta_selected.inicio : this.data.inicio;
+    this.ruta = this.ruta_selected != undefined ? this.ruta_selected.ruta : this.data.ruta;
+    this.calcularRutas();
+  },
+  methods: {
+    calcularRutas: function calcularRutas() {
+      var _iterator = _createForOfIteratorHelper(this.ubicaciones),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var ubicacion = _step.value;
+          this.pesoAcumulado[ubicacion.nombre] = ubicacion.nombre === this.inicio ? 0 : Infinity;
+          this.rutaConMenorPeso[ubicacion.nombre] = [];
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      var ubicacionesNoVisitadas = new Set(Object.keys(this.pesoAcumulado));
+      while (ubicacionesNoVisitadas.size > 0) {
+        var ubicacionActual = this.obtenerUbicacionConMenorPeso(ubicacionesNoVisitadas, this.pesoAcumulado);
+        ubicacionesNoVisitadas["delete"](ubicacionActual);
+        var _iterator2 = _createForOfIteratorHelper(this.obtenerConexiones(ubicacionActual)),
+          _step2;
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var conexion = _step2.value;
+            var ubicacionVecina = this.obtenerUbicacionVecina(conexion, ubicacionActual);
+            var pesoTotal = this.pesoAcumulado[ubicacionActual] + conexion.peso;
+            if (pesoTotal < this.pesoAcumulado[ubicacionVecina]) {
+              this.pesoAcumulado[ubicacionVecina] = pesoTotal;
+              this.rutaConMenorPeso[ubicacionVecina] = [].concat(_toConsumableArray(this.rutaConMenorPeso[ubicacionActual]), [ubicacionVecina]);
+            }
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+      }
+
+      /*console.log("this.pesoAcumulado: ");
+      console.log(this.pesoAcumulado);
+      console.log("this.rutaConMenorPeso: ");
+      console.log(this.rutaConMenorPeso);*/
+    },
+    obtenerUbicacionConMenorPeso: function obtenerUbicacionConMenorPeso(ubicacionesNoVisitadas, pesoAcumulado) {
+      var ubicacionMenorPeso = null;
+      var _iterator3 = _createForOfIteratorHelper(ubicacionesNoVisitadas),
+        _step3;
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var ubicacion = _step3.value;
+          if (ubicacionMenorPeso === null || pesoAcumulado[ubicacion] < pesoAcumulado[ubicacionMenorPeso]) {
+            ubicacionMenorPeso = ubicacion;
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+      return ubicacionMenorPeso;
+    },
+    obtenerConexiones: function obtenerConexiones(ubicacion) {
+      return this.conexiones.filter(function (conexion) {
+        return conexion.ubicacion1 === ubicacion;
+      } /* || conexion.ubicacion2 === ubicacion*/);
+    },
+    obtenerUbicacionVecina: function obtenerUbicacionVecina(conexion, ubicacionActual) {
+      return conexion.ubicacion1 === ubicacionActual ? conexion.ubicacion2 : conexion.ubicacion1;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Index.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Index.vue?vue&type=script&lang=js& ***!
@@ -2737,6 +2910,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Dijkstra.vue */ "./resources/js/components/Dijkstra.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2934,14 +3165,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
-  components: {},
+  components: {
+    'dijkstra-component': _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       ruta_selected: {},
       listaUbicaciones: [],
       listaConexiones: [],
+      modalCrearUbicacion: null,
+      modalEditarUbicacion: null,
+      // Modal de Calculo de Peso Minimo
+      modalCalcular: null,
+      componenteDijkstra: false,
       // data de se la ubicacion
       nombre_ruta: '',
       posX: '',
@@ -2951,6 +3190,7 @@ __webpack_require__.r(__webpack_exports__);
       ubicacion2: '',
       peso: '',
       //data de modificar ubicaciones
+      ubicacionId: '',
       ubicacionModificar: '',
       posXModificar: '',
       posYModificar: ''
@@ -2958,11 +3198,110 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.ruta_selected = this.ruta;
-    this.cargarUbicaciones();
-    this.cargarConexiones();
   },
   methods: {
-    registrar_ubicacion: function registrar_ubicacion() {},
+    abrirModalCrearUbicacion: function abrirModalCrearUbicacion() {
+      this.nombre_ruta = "";
+      this.posX = "";
+      this.posY = "";
+      this.modalCrearUbicacion = new bootstrap.Modal(document.getElementById('crear_ubicacion'), {
+        keyboard: false,
+        backdrop: 'static'
+      });
+      this.modalCrearUbicacion.show();
+    },
+    cerrarModalCrearUbicacion: function cerrarModalCrearUbicacion() {
+      if (this.modalCrearUbicacion != null) {
+        this.modalCrearUbicacion.hide();
+      }
+    },
+    abrirModalEditarUbicacion: function abrirModalEditarUbicacion(ubicacion) {
+      this.ubicacionId = ubicacion.id;
+      this.ubicacionModificar = ubicacion.nombre;
+      this.posXModificar = ubicacion.posX;
+      this.posYModificar = ubicacion.posY;
+      this.modalEditarUbicacion = new bootstrap.Modal(document.getElementById('modificar_ubicacion'), {
+        keyboard: false,
+        backdrop: 'static'
+      });
+      this.modalEditarUbicacion.show();
+    },
+    cerrarModalEditarUbicacion: function cerrarModalEditarUbicacion() {
+      if (this.modalEditarUbicacion != null) {
+        this.modalEditarUbicacion.hide();
+      }
+    },
+    abrirModalCalcular: function abrirModalCalcular() {
+      if (this.ruta_selected.inicio != "") {
+        this.modalCalcular = new bootstrap.Modal(document.getElementById('modalCalcular'), {
+          keyboard: false,
+          backdrop: 'static'
+        });
+        this.modalCalcular.show();
+        this.componenteDijkstra = true;
+      } else {
+        alert("Se debe seleccionar un punto de inicio.");
+      }
+    },
+    cerrarModalCalcular: function cerrarModalCalcular() {
+      if (this.modalCalcular != null) {
+        this.modalCalcular.hide();
+        this.componenteDijkstra = false;
+      }
+    },
+    registrarUbicacion: function registrarUbicacion() {
+      var _this = this;
+      var nombre_ruta = this.nombre_ruta.toUpperCase();
+      var posX = this.posX;
+      var posY = this.posY;
+      var id_ruta = this.ruta_selected.id;
+      axios.post('/Registrar_ubicaciones', {
+        nombre_ruta: nombre_ruta,
+        posX: posX,
+        posY: posY,
+        id_ruta: id_ruta
+      }).then(function (res) {
+        console.log('Respuesta del servidor');
+        console.log(res.data);
+        if (res.data.status) {
+          _this.ruta_selected.ubicaciones.push(res.data.ubicacion);
+          _this.cerrarModalCrearUbicacion();
+        } else {
+          alert("No se puede registrar la Ubicacion, es posible que este repetido el nombre.");
+        }
+      })["catch"](function (error) {
+        console.log('Error en axios');
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    editarUbicacion: function editarUbicacion() {
+      var _this2 = this;
+      var ubicacion_id = this.ubicacionId;
+      var nombre_ubicacion = this.ubicacionModificar.toUpperCase();
+      var posX = this.posXModificar;
+      var posY = this.posYModificar;
+      axios.post('/Editar_ubicacion', {
+        nombre_ubicacion: nombre_ubicacion,
+        posX: posX,
+        posY: posY,
+        ubicacion_id: ubicacion_id
+      }).then(function (res) {
+        console.log('Respuesta del servidor - Edicion ubicacion');
+        console.log(res.data);
+        for (var i = 0; i < _this2.ruta_selected.ubicaciones.length; i++) {
+          if (_this2.ruta_selected.ubicaciones[i].id == ubicacion_id) {
+            _this2.ruta_selected.ubicaciones[i] = res.data.ubicacion;
+            break;
+          }
+        }
+        _this2.cerrarModalEditarUbicacion();
+      })["catch"](function (error) {
+        console.log('Error en axios');
+        console.log(error);
+        console.log(error.response);
+      });
+    },
     registrar_conexiones: function registrar_conexiones() {
       var ubicacion1 = this.ubicacion1;
       var ubicacion2 = this.ubicacion2;
@@ -2982,6 +3321,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     mostrarDatosUbicacion: function mostrarDatosUbicacion(ubicacion) {
       this.ubicacionModificar = ubicacion;
+<<<<<<< HEAD
     },
     cargarUbicaciones: function cargarUbicaciones() {
       var _this = this;
@@ -3007,6 +3347,8 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         console.log(error.response);
       });
+=======
+>>>>>>> origin/dev2
     }
   }
 });
@@ -3040,13 +3382,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3056,29 +3391,52 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       nombreRuta: "",
-      verRutas: true,
-      ruta: ''
+      ruta: '',
+      listaRutas: [],
+      verGuardarRuta: true,
+      verTablaRutas: false
     };
   },
-  created: function created() {},
+  created: function created() {
+    this.cargarRutas();
+  },
   methods: {
     guardar_ruta: function guardar_ruta() {
       var _this = this;
       var rutas = this.nombreRuta;
       if (rutas != null) {
+        rutas = rutas.toUpperCase();
         axios.post('/guardar_ruta', {
           rutas: rutas
         }).then(function (res) {
           console.log("Respuesta del servidor");
           console.log(res.data);
-          _this.ruta = res.data;
+          _this.listaRutas = res.data.listaRutas;
           _this.nombreRuta = "";
+          _this.verTablaRutas = false;
+          setTimeout(function () {
+            _this.verTablaRutas = true;
+          }, 200);
         })["catch"](function (error) {
           console.log("Error en axios");
           console.log(error);
           console.log(error.response);
         });
       } else {}
+    },
+    cargarRutas: function cargarRutas() {
+      var _this2 = this;
+      this.verTablaRutas = false;
+      axios.get('/cargarRutas').then(function (resp) {
+        console.log('Datos cargados');
+        console.log(resp.data);
+        _this2.listaRutas = resp.data.listaRutas;
+        _this2.verTablaRutas = true;
+      })["catch"](function (error) {
+        console.log("No se cargaron los datos");
+        console.log(error);
+        console.log(error.response);
+      });
     }
   }
 });
@@ -3132,9 +3490,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3151,7 +3506,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.listaRutas = this.rutas;
-    this.cargarRutas();
   },
   methods: {
     regresar: function regresar() {
@@ -3161,18 +3515,6 @@ __webpack_require__.r(__webpack_exports__);
     verDetalleRuta: function verDetalleRuta(ruta) {
       this.verTablaRutas = false;
       this.ruta_selected = ruta;
-    },
-    cargarRutas: function cargarRutas() {
-      var _this = this;
-      axios.get('/cargarRutas').then(function (resp) {
-        console.log('Datos cargados');
-        console.log(resp.data);
-        _this.listaRutas = resp.data.ruta;
-      })["catch"](function (error) {
-        console.log("No se cargaron los datos");
-        console.log(error);
-        console.log(error.response);
-      });
     }
   }
 });
@@ -20790,6 +21132,45 @@ component.options.__file = "resources/js/components/CargaDatos/Rutas.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Dijkstra.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Dijkstra.vue ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dijkstra.vue?vue&type=template&id=9234c77e& */ "./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e&");
+/* harmony import */ var _Dijkstra_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dijkstra.vue?vue&type=script&lang=js& */ "./resources/js/components/Dijkstra.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Dijkstra_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Dijkstra.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Index.vue":
 /*!*******************************************!*\
   !*** ./resources/js/components/Index.vue ***!
@@ -21070,6 +21451,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Dijkstra.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Dijkstra.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dijkstra_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dijkstra.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dijkstra_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Index.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
   !*** ./resources/js/components/Index.vue?vue&type=script&lang=js& ***!
@@ -21197,6 +21594,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Rutas_vue_vue_type_template_id_6ce77c6c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Rutas_vue_vue_type_template_id_6ce77c6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Rutas.vue?vue&type=template&id=6ce77c6c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CargaDatos/Rutas.vue?vue&type=template&id=6ce77c6c&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dijkstra_vue_vue_type_template_id_9234c77e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dijkstra.vue?vue&type=template&id=9234c77e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e&");
 
 
 /***/ }),
@@ -21386,14 +21800,9 @@ var render = function () {
             "button",
             {
               staticClass: "btn btn-primary",
-              attrs: {
-                id: "botonCalcular",
-                "data-bs-target": "#modalCalcular",
-                "data-bs-toggle": "modal",
-              },
               on: {
                 click: function ($event) {
-                  return _vm.calcularDistancias(_vm.grafoJSON)
+                  return _vm.abrirModalCalcular()
                 },
               },
             },
@@ -21511,7 +21920,81 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm._m(3),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalCalcular",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-xl" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h1",
+                {
+                  staticClass: "modal-title fs-5 text-uppercase",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("Calculo de conexión más corta - Menos Peso")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.cerrarModalCalcular()
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "col-12 m-0 p-0 row h-100" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-5 m-0 p-0 h-100" },
+                  [
+                    _vm.componenteDijkstra
+                      ? _c("dijkstra-component", {
+                          attrs: { ruta_selected: _vm.ruta_selected },
+                        })
+                      : _vm._e(),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col m-0 p-0 h-100" }, [
+                  _vm._v("\n\t\t        \t\t\tDIBUJO GRAFO\n\t\t\t    \t\t"),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.cerrarModalCalcular()
+                    },
+                  },
+                },
+                [_vm._v("CERRAR")]
+              ),
+            ]),
+          ]),
+        ]),
+      ]
+    ),
   ])
 }
 var staticRenderFns = [
@@ -21538,67 +22021,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-auto" }, [
       _c("h6", { staticClass: "mt-3" }, [_vm._v("CONEXIONES DE LA RUTA:")]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalCalcular",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h1",
-                {
-                  staticClass: "modal-title fs-5",
-                  attrs: { id: "exampleModalLabel" },
-                },
-                [_vm._v("Calculo de conexión más corta")]
-              ),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-close",
-                attrs: {
-                  type: "button",
-                  "data-bs-dismiss": "modal",
-                  "aria-label": "Close",
-                },
-              }),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", "data-bs-dismiss": "modal" },
-                },
-                [_vm._v("Close")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                [_vm._v("Save changes")]
-              ),
-            ]),
-          ]),
-        ]),
-      ]
-    )
   },
 ]
 render._withStripped = true
@@ -21837,6 +22259,77 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th"),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dijkstra.vue?vue&type=template&id=9234c77e& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "p-3" }, [
+    _c("h4", { staticClass: "text-primary m-0" }, [_vm._v(_vm._s(_vm.ruta))]),
+    _vm._v(" "),
+    _c("p", [
+      _c("b", [_vm._v("Ubicación de inicio:")]),
+      _vm._v(" " + _vm._s(_vm.inicio)),
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("table", { staticClass: "table table-bordered" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.ubicaciones, function (ubicacion) {
+          return _c("tr", [
+            _c("td", { staticClass: "text-center" }, [
+              _vm._v(_vm._s(ubicacion.nombre)),
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.rutaConMenorPeso[ubicacion.nombre]))]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-center" }, [
+              _vm._v(_vm._s(_vm.pesoAcumulado[ubicacion.nombre])),
+            ]),
+          ])
+        }),
+        0
+      ),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", { staticClass: "bg-primary text-light" }, [
+        _c("th", { staticClass: "text-center col-2" }, [_vm._v("DESTINO")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center col-8" }, [_vm._v("RECORRIDO")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center col-2" }, [_vm._v("PESO")]),
       ]),
     ])
   },
@@ -22125,20 +22618,50 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col-auto" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: {
+                click: function ($event) {
+                  return _vm.abrirModalCalcular()
+                },
+              },
+            },
+            [_vm._v("CALCULAR")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-12 m-0 mt-2 p-0 row" }, [
         _c("div", { staticClass: "col border me-1" }, [
-          _vm._m(2),
+          _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "col text-end" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary py-1",
+                  on: {
+                    click: function ($event) {
+                      return _vm.abrirModalCrearUbicacion()
+                    },
+                  },
+                },
+                [_vm._v("CREAR")]
+              ),
+            ]),
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
             _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.listaUbicaciones, function (ubicacion) {
+                _vm._l(_vm.ruta_selected.ubicaciones, function (ubicacion) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(ubicacion.id))]),
                     _vm._v(" "),
@@ -22148,18 +22671,14 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(ubicacion.posY))]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticClass: "text-center" }, [
                       _c(
                         "button",
                         {
                           staticClass: "btn btn-primary",
-                          attrs: {
-                            "data-bs-toggle": "modal",
-                            "data-bs-target": "#editar",
-                          },
                           on: {
                             click: function ($event) {
-                              return _vm.enviarDatos(ubicacion)
+                              return _vm.abrirModalEditarUbicacion(ubicacion)
                             },
                           },
                         },
@@ -22175,15 +22694,15 @@ var render = function () {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col border ms-1" }, [
-          _vm._m(4),
+          _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "col-12 m-0 p-0" }, [
             _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.listaConexiones, function (conexion) {
+                _vm._l(_vm.ruta_selected.conexiones, function (conexion) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(conexion.id))]),
                     _vm._v(" "),
@@ -22193,7 +22712,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(conexion.peso))]),
                     _vm._v(" "),
-                    _vm._m(6, true),
+                    _vm._m(5, true),
                   ])
                 }),
                 0
@@ -22214,7 +22733,26 @@ var render = function () {
               [
                 _c("div", { staticClass: "modal-dialog" }, [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(7),
+                    _c("div", { staticClass: "modal-header" }, [
+                      _c(
+                        "h5",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLabel" },
+                        },
+                        [_vm._v("Modal title")]
+                      ),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn-close",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.cerrarModalCrearUbicacion()
+                          },
+                        },
+                      }),
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", [
@@ -22225,7 +22763,7 @@ var render = function () {
                               staticClass: "form-label",
                               attrs: { for: "nombre_ruta" },
                             },
-                            [_vm._v("Nombre de la ruta")]
+                            [_vm._v("Nombre de la ubicacion")]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -22237,8 +22775,8 @@ var render = function () {
                                 expression: "nombre_ruta",
                               },
                             ],
-                            staticClass: "form-control",
-                            attrs: { type: "email", id: "nombre_ruta" },
+                            staticClass: "form-control text-uppercase",
+                            attrs: { type: "text", id: "nombre_ruta" },
                             domProps: { value: _vm.nombre_ruta },
                             on: {
                               input: function ($event) {
@@ -22271,7 +22809,7 @@ var render = function () {
                               },
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "email", id: "posX" },
+                            attrs: { type: "number", id: "posX" },
                             domProps: { value: _vm.posX },
                             on: {
                               input: function ($event) {
@@ -22304,7 +22842,7 @@ var render = function () {
                               },
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "email", id: "posY" },
+                            attrs: { type: "number", id: "posY" },
                             domProps: { value: _vm.posY },
                             on: {
                               input: function ($event) {
@@ -22324,7 +22862,12 @@ var render = function () {
                         "button",
                         {
                           staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-bs-dismiss": "modal" },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.cerrarModalCrearUbicacion()
+                            },
+                          },
                         },
                         [_vm._v("Cancelar")]
                       ),
@@ -22336,7 +22879,179 @@ var render = function () {
                           attrs: { type: "button" },
                           on: {
                             click: function ($event) {
-                              return _vm.registrar_ubicacion()
+                              return _vm.registrarUbicacion()
+                            },
+                          },
+                        },
+                        [_vm._v("Aceptar")]
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "modificar_ubicacion",
+                  tabindex: "-1",
+                  "aria-labelledby": "exampleModalLabel",
+                  "aria-hidden": "true",
+                },
+              },
+              [
+                _c("div", { staticClass: "modal-dialog" }, [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header" }, [
+                      _c(
+                        "h5",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLabel" },
+                        },
+                        [_vm._v("Modal title")]
+                      ),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn-close",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.cerrarModalEditarUbicacion()
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", [
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "nombre_ruta" },
+                            },
+                            [_vm._v("Nombre de la ubicacion")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ubicacionModificar,
+                                expression: "ubicacionModificar",
+                              },
+                            ],
+                            staticClass: "form-control text-uppercase",
+                            attrs: { type: "text", id: "nombre_ruta" },
+                            domProps: { value: _vm.ubicacionModificar },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ubicacionModificar = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "posX" },
+                            },
+                            [_vm._v("Pos X")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.posXModificar,
+                                expression: "posXModificar",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "number", id: "posX" },
+                            domProps: { value: _vm.posXModificar },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.posXModificar = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "posY" },
+                            },
+                            [_vm._v("Pos Y")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.posYModificar,
+                                expression: "posYModificar",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "number", id: "posY" },
+                            domProps: { value: _vm.posYModificar },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.posYModificar = $event.target.value
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.cerrarModalEditarUbicacion()
+                            },
+                          },
+                        },
+                        [_vm._v("Cancelar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.editarUbicacion()
                             },
                           },
                         },
@@ -22362,7 +23077,7 @@ var render = function () {
               [
                 _c("div", { staticClass: "modal-dialog" }, [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(8),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", [
@@ -22495,170 +23210,86 @@ var render = function () {
                 ]),
               ]
             ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal fade",
-                attrs: {
-                  id: "editar",
-                  tabindex: "-1",
-                  "aria-labelledby": "modalEditar",
-                  "aria-hidden": "true",
-                },
-              },
-              [
-                _c("div", { staticClass: "modal-dialog" }, [
-                  _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(9),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body" }, [
-                      _c("div", [
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "nombreUbicacion" },
-                            },
-                            [_vm._v("Nombre de la ubicación")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.ubicacionModificar.nombre,
-                                expression: "ubicacionModificar.nombre",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text", id: "nombreUbicacion" },
-                            domProps: { value: _vm.ubicacionModificar.nombre },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.ubicacionModificar,
-                                  "nombre",
-                                  $event.target.value
-                                )
-                              },
-                            },
-                          }),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "posX" },
-                            },
-                            [_vm._v("Pos X")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.ubicacionModificar.posX,
-                                expression: "ubicacionModificar.posX",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "number", id: "posXModificar" },
-                            domProps: { value: _vm.ubicacionModificar.posX },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.ubicacionModificar,
-                                  "posX",
-                                  $event.target.value
-                                )
-                              },
-                            },
-                          }),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mb-3" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "posY" },
-                            },
-                            [_vm._v("Pos Y")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.ubicacionModificar.posY,
-                                expression: "ubicacionModificar.posY",
-                              },
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "number", id: "posYModificar" },
-                            domProps: { value: _vm.ubicacionModificar.posY },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.ubicacionModificar,
-                                  "posY",
-                                  $event.target.value
-                                )
-                              },
-                            },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-bs-dismiss": "modal" },
-                        },
-                        [_vm._v("Cancelar")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function ($event) {
-                              return _vm.registrar()
-                            },
-                          },
-                        },
-                        [_vm._v("Aceptar")]
-                      ),
-                    ]),
-                  ]),
-                ]),
-              ]
-            ),
           ]),
         ]),
       ]),
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalCalcular",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-xl" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h1",
+                {
+                  staticClass: "modal-title fs-5 text-uppercase",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("Calculo de conexión más corta - Menos Peso")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.cerrarModalCalcular()
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "col-12 m-0 p-0 row h-100" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-5 m-0 p-0 h-100" },
+                  [
+                    _vm.componenteDijkstra
+                      ? _c("dijkstra-component", {
+                          attrs: { ruta_selected: _vm.ruta_selected },
+                        })
+                      : _vm._e(),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col m-0 p-0 h-100" }, [
+                  _vm._v("\n\t\t        \t\t\tDIBUJO GRAFO\n\t\t\t    \t\t"),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.cerrarModalCalcular()
+                    },
+                  },
+                },
+                [_vm._v("CERRAR")]
+              ),
+            ]),
+          ]),
+        ]),
+      ]
+    ),
   ])
 }
 var staticRenderFns = [
@@ -22675,31 +23306,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-auto" }, [
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("CALCULAR")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 m-0 p-0 pt-2 row" }, [
-      _c("div", { staticClass: "col-auto" }, [
-        _c("h6", { staticClass: "mt-3" }, [_vm._v("UBICACIONES DE LA RUTA:")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col text-end" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary py-1",
-            attrs: {
-              "data-bs-toggle": "modal",
-              "data-bs-target": "#crear_ubicacion",
-            },
-          },
-          [_vm._v("CREAR")]
-        ),
-      ]),
+      _c("h6", { staticClass: "mt-3" }, [_vm._v("UBICACIONES DE LA RUTA:")]),
     ])
   },
   function () {
@@ -22791,48 +23398,6 @@ var staticRenderFns = [
       }),
     ])
   },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
-    ])
-  },
 ]
 render._withStripped = true
 
@@ -22856,91 +23421,70 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "col-12 m-0 p-0 mt-2 row justify-content-center" },
-      [
-        _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
-          _c("div", { staticClass: "col-3 mb-2" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.nombreRuta,
-                  expression: "nombreRuta",
-                },
-              ],
-              staticClass: "form-control text-uppercase",
-              attrs: { id: "campoNombreRuta", type: "text" },
-              domProps: { value: _vm.nombreRuta },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.nombreRuta = $event.target.value
-                },
+  return _c(
+    "div",
+    { staticClass: "col-12 m-0 p-0 mt-2 row justify-content-center" },
+    [
+      _c("div", { staticClass: "col-6 m-0 p-0 row justify-content-center" }, [
+        _c("div", { staticClass: "col-3 mb-0" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.nombreRuta,
+                expression: "nombreRuta",
               },
-            }),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-3 pt-12",
-              staticStyle: { "margin-top": "32px" },
+            ],
+            staticClass: "form-control text-uppercase",
+            staticStyle: { "margin-top": "33px" },
+            attrs: { id: "campoNombreRuta", type: "text" },
+            domProps: { value: _vm.nombreRuta },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.nombreRuta = $event.target.value
+              },
             },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "col-12 btn btn-primary",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function ($event) {
-                      return _vm.guardar_ruta()
-                    },
-                  },
-                },
-                [_vm._v("CARGAR")]
-              ),
-            ]
-          ),
+          }),
         ]),
         _vm._v(" "),
         _c(
           "div",
-          {
-            staticClass:
-              "col-12 m-0 p-2 mt-3 border  row justify-content-center",
-          },
+          { staticClass: "col-3 mt-6", staticStyle: { "margin-top": "32px" } },
           [
-            _vm.verRutas
-              ? _c("rutas-component", { attrs: { rutas: _vm.ruta } })
-              : _vm._e(),
-          ],
-          1
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-primary",
+                on: {
+                  click: function ($event) {
+                    return _vm.guardar_ruta()
+                  },
+                },
+              },
+              [_vm._v(" Guardar Ruta ")]
+            ),
+          ]
         ),
-      ]
-    ),
-  ])
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "text-center form-text", attrs: { id: "emailHelp" } },
+          [_vm._v("Ingrese el nombre de la ruta que quiere guardar")]
+        ),
+      ]),
+      _vm._v(" "),
+      _vm.verTablaRutas
+        ? _c("rutas-component", { attrs: { rutas: _vm.listaRutas } })
+        : _vm._e(),
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "form-label", attrs: { for: "campoNombreRuta" } },
-      [_c("b", [_vm._v("Nombre Ruta:")])]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22969,19 +23513,7 @@ var render = function () {
     [
       _vm.verTablaRutas
         ? _c("div", { staticClass: "col-12 m-0 p-0" }, [
-            _c(
-              "div",
-              { staticClass: "col-12 m-0 mb-2 p-0 row justify-content-end" },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-auto p-0" }, [
-                   false
-                    ? 0
-                    : _vm._e(),
-                ]),
-              ]
-            ),
+            _vm._m(0),
             _vm._v(" "),
             _c("table", { staticClass: "table table-bordered" }, [
               _vm._m(1),
@@ -22990,9 +23522,13 @@ var render = function () {
                 "tbody",
                 _vm._l(_vm.listaRutas, function (ruta) {
                   return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(ruta.id))]),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(_vm._s(ruta.id)),
+                    ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ruta.nombre_ruta))]),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(_vm._s(ruta.nombre_ruta)),
+                    ]),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -23041,7 +23577,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h4", [_vm._v("RUTAS:")])])
+    return _c(
+      "div",
+      { staticClass: "col-12 m-0 mb-2 p-0 row justify-content-end" },
+      [_c("div", { staticClass: "col" }, [_c("h4", [_vm._v("RUTAS:")])])]
+    )
   },
   function () {
     var _vm = this

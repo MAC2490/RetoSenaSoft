@@ -1,23 +1,16 @@
 <template>
-	<div>
-		<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
-			
-			<div class="col-6 m-0 p-0 row justify-content-center">
-				<div class="col-3 mb-2">
-					<label class="form-label" for="campoNombreRuta"><b>Nombre Ruta:</b></label>
-					<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text">
-				</div>
-				<div class="col-3 pt-12" style="margin-top: 32px;">
-					<button class="col-12 btn btn-primary" type="button" @click="guardar_ruta()">CARGAR</button>
-				</div>
-			</div>
 
-		<div class="col-12 m-0 p-2 mt-3 border  row justify-content-center">
-			<rutas-component v-if="verRutas" :rutas="ruta"></rutas-component>
+	<div class="col-12 m-0 p-0 mt-2 row justify-content-center">
+		<div class="col-6 m-0 p-0 row justify-content-center">
+			<div class="col-3 mb-0">
+				<input id="campoNombreRuta" v-model="nombreRuta" class="form-control text-uppercase" type="text" style="margin-top: 33px;">
+			</div>
+			<div class="col-3 mt-6" style="margin-top: 32px;">
+				<button class="btn btn-outline-primary" @click="guardar_ruta()"> Guardar Ruta </button>
+			</div>
+			<div id="emailHelp" class="text-center form-text">Ingrese el nombre de la ruta que quiere guardar</div>
 		</div>
-			
-	</div>
-		
+		<rutas-component v-if="verTablaRutas" :rutas="listaRutas"></rutas-component>
 	</div>
 </template>
 <script>
@@ -29,22 +22,30 @@
 		data(){
 			return{
 				nombreRuta: "",
-				verRutas: true,
 				ruta: '',
+				listaRutas: [],
+				verGuardarRuta:true,
+				verTablaRutas:false,
 			};
 		},
 		created(){
-			
+			this.cargarRutas();	
 		},
 		methods:{
 			guardar_ruta(){
-				const rutas = this.nombreRuta;
+				let rutas = this.nombreRuta;
 				if (rutas!=null) {
+					rutas = rutas.toUpperCase();
 					axios.post('/guardar_ruta',{rutas}).then(res => {
 						console.log("Respuesta del servidor");
 						console.log(res.data);
-						this.ruta = res.data;
+						this.listaRutas = res.data.listaRutas;
 						this.nombreRuta = "";
+						
+						this.verTablaRutas = false;
+						setTimeout(() => {
+		                    this.verTablaRutas = true;
+		                }, 200);
 					}).catch(error => {
 						console.log("Error en axios");
 						console.log(error);
@@ -53,6 +54,19 @@
 				}else{
 					
 				}
+			},
+			cargarRutas(){
+				this.verTablaRutas = false;
+				axios.get('/cargarRutas').then(resp =>{
+					console.log('Datos cargados');
+					console.log(resp.data);
+					this.listaRutas = resp.data.listaRutas;
+					this.verTablaRutas = true;
+				}).catch(error =>{
+					console.log("No se cargaron los datos");
+					console.log(error);
+					console.log(error.response);
+				})
 			},
 		}
 	}

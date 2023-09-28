@@ -22,6 +22,7 @@
         "vue-loader": "^15.9.8"
     },
     "dependencies": {
+        "d3": "^7.8.5",
         "vue-json-csv": "^2.1.0",
         "vue-template-compiler": "^2.6.12"
     }

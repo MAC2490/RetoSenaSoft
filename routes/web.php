@@ -26,7 +26,11 @@ Route::post('/Registrar_conexiones', [ConexionController::class, 'registrar']);
 Route::post('/guardar_ruta', [RutasController::class, 'guardar_ruta']);
 Route::get('/cargarDatos', [CargaDatosController::class, 'index']);
 Route::get('/cargarRutas', [RutasController::class, 'cargarRutas']);
+Route::post('/Registrar_ubicaciones', [UbicacionesController::class,'Registrar_ubicaciones']);
+Route::post('/Editar_ubicacion', [UbicacionesController::class,'Editar_ubicaciones']);
+
+
+
 Route::put('/modificarUbicacion/{id}', [UbicacionesController::class, 'modificarUbicaciones']);
-Route::get('/cargarUbicaciones/{id}', [UbicacionesController::class, 'cargarUbicaciones']);
-Route::get('/cargarConexiones', [UbicacionesController::class, 'cargarConexiones']);
+
 
