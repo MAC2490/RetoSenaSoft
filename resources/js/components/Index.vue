@@ -2,9 +2,8 @@
 	<section>
 		<div>
 			<form>
-				<input type="file" @change="CapturarInformacion">
-				<button type="button" @click="mostrarGrafo(lista_datos)">Mostrar</button>
 				<svg id="grafo" width="400" height="400"></svg>
+				<button type="button"></button>
 			</form>
 		</div>
 	</section>
@@ -13,6 +12,7 @@
 	import * as d3 from 'd3';
 	
 	export default{
+		props: ['ruta_selected'],
 		components: {
 			
 
@@ -24,36 +24,19 @@
 
 			};
 		},
-		mounted(){
+		created(){
+			this.lista_datos = this.ruta_selected;
+			this.mostrarGrafo(this.lista_datos);
+			console.log(this.ruta_selected)
 			// this.cargarDatosDesdeJson();
 		},
 		methods:{
-			CapturarInformacion(event){
-				const file = event.target.files[0];
-				if(file){
-					const reader = new FileReader();
-
-					reader.onload = () => {
-						try{
-							this.datosDePrueba = JSON.parse(reader.result);
-							console.log("Datos del archivo JSON: ", this.datosDePrueba);
-							this.lista_datos = this.datosDePrueba;
-							// console.log("Datos del archivo JSON: ", this.lista_datos);
-						}catch(error){
-							console.error('Error en JSON', error);
-						}
-					}
-
-					reader.readAsText(file);
-				}
-			},
 			mostrarGrafo(lista_datos){
-				console.log(this.datosDePrueba);
-				console.log("joker");
-				if(this.datosDePrueba){
+				console.log("Texto prueba: ",lista_datos);
 
-					console.log('Entro en mostrar grafo');
-					console.log('Datos antes de la creación del gráfico:', lista_datos.enlaces);
+				if(lista_datos){
+					console.log('Entro en mostrar grafo', lista_datos);
+					// console.log('Datos antes de la creación del gráfico:', lista_datos.conexiones);
 					const svg = d3.select('#grafo');
 
 					
@@ -61,13 +44,17 @@
 					  .force('charge', d3.forceManyBody().strength(-100))
 					  .force('link', d3.forceLink(lista_datos.conexiones).id(d => d.id).distance(100))
 					  .force('center', d3.forceCenter(250, 150));
+
+
 					// Crea los enlaces
 					const enlaces = svg.selectAll('line')
 					  .data(lista_datos.conexiones)
 					  .enter()
 					  .append('line')
 					  .attr('stroke', 'gray');
-					console.log(lista_datos)
+
+
+
 					// Crea los nodos
 					const nodos = svg.selectAll('circle')
 					  .data(lista_datos.ubicaciones)
@@ -84,7 +71,7 @@
 					// );
 					
 
-					// Actualiza la posición de los elementos en cada iteración de la simulación
+					//Actualiza la posición de los elementos en cada iteración de la simulación
 					simulation.on('tick', () => {
 					  enlaces
 					    .attr('x1', d => d.source.x)
@@ -93,16 +80,16 @@
 					    .attr('y2', d => d.target.y);
 					
 					  nodos
-					    .attr('cx', d => d.x)
-					    .attr('cy', d => d.y);
+					    .attr('cx', d => Math.max(20, Math.min(480, d.x))) // Limita las coordenadas X dentro del SVG
+        					.attr('cy', d => Math.max(20, Math.min(280, d.y))); // Limita las coordenadas Y dentro del SVG
 					});
 					
-					// // Funciones para el arrastre de nodos
-					// function dragStarted(event, d) {
-					//   if (!event.active) simulation.alphaTarget(0.3).restart();
-					//   d.fx = d.x;
-					//   d.fy = d.y;
-					// }
+					// Funciones para el arrastre de nodos
+					function dragStarted(event, d) {
+					  if (!event.active) simulation.alphaTarget(0.3).restart();
+					  d.fx = d.x;
+					  d.fy = d.y;
+					}
 					
 					function dragged(event, d) {
 					  d.fx = event.x;
@@ -117,15 +104,8 @@
 				}else{
 					console.warn('Los datos desde JSON no han sido cargados');
 				}
-
-			},
-			// cargarDatosDesdeJson(){
-			// 	fetch('ubicaciones.json')
-			// 		.then(response => response.json())
-			// 		.then(data => {
-			// 			this.datosDesdeJson = data;
-			// 		});
-			// }
+			}
+			
 		}
 	}
 

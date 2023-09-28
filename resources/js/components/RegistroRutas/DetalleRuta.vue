@@ -323,6 +323,7 @@
 					this.modalCalcular = new bootstrap.Modal(document.getElementById('modalCalcular'), {keyboard: false, backdrop:'static'});
 					this.modalCalcular.show();
 					this.componenteDijkstra = true;
+					this.componenteGrafo = true;
 				}else{
 					alert("Se debe seleccionar un punto de inicio.");
 				}
@@ -331,6 +332,7 @@
 				if (this.modalCalcular!=null){
 					this.modalCalcular.hide();
 					this.componenteDijkstra = false;
+					this.componenteGrafo = false;
 				}
 			},
 			registrarUbicacion(){

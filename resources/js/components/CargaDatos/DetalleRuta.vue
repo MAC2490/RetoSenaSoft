@@ -110,11 +110,8 @@
 				    </div>
 				    <div class="modal-body">
 				    	<div class="col-12 m-0 p-0 row h-100">
-				    		<div class="col-5 m-0 p-0 h-100">
+				    		<div class="col-12 m-0 p-0 h-100">
 			        			<dijkstra-component v-if="componenteDijkstra" :ruta_selected="ruta_selected" ></dijkstra-component>
-				    		</div>
-				    		<div class="col m-0 p-0 h-100">
-			        			DIBUJO GRAFO
 				    		</div>
 				    	</div>
 
@@ -131,10 +128,12 @@
 </template>
 <script>
 	import Dijkstra from "../Dijkstra.vue";
+	import Grafo from "../Index.vue";
 	export default{
 		props: [ 'ruta' ],
 		components: {
 			'dijkstra-component': Dijkstra,
+			'grafo-component': Grafo,
 		},
 		data(){
 			return{
@@ -142,6 +141,7 @@
 				nodoInicio: null,
 				modalCalcular: null,
 				componenteDijkstra: false,
+				componenteGrafo: false,
 			};
 		},
 		created(){
@@ -153,6 +153,7 @@
 					this.modalCalcular = new bootstrap.Modal(document.getElementById('modalCalcular'), {keyboard: false, backdrop:'static'});
 					this.modalCalcular.show();
 					this.componenteDijkstra = true;
+					this.componenteGrafo = true;
 				}else{
 					alert("Se debe seleccionar un punto de inicio.");
 				}
@@ -161,6 +162,7 @@
 				if (this.modalCalcular!=null){
 					this.modalCalcular.hide();
 					this.componenteDijkstra = false;
+					this.componenteGrafo = false;	
 				}
 			},
 			

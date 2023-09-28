@@ -2168,6 +2168,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Dijkstra.vue */ "./resources/js/components/Dijkstra.vue");
+/* harmony import */ var _Index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Index.vue */ "./resources/js/components/Index.vue");
 //
 //
 //
@@ -2296,22 +2297,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ruta'],
   components: {
-    'dijkstra-component': _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'dijkstra-component': _Dijkstra_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'grafo-component': _Index_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
       ruta_selected: {},
       nodoInicio: null,
       modalCalcular: null,
-      componenteDijkstra: false
+      componenteDijkstra: false,
+      componenteGrafo: false
     };
   },
   created: function created() {
@@ -2326,6 +2327,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         this.modalCalcular.show();
         this.componenteDijkstra = true;
+        this.componenteGrafo = true;
       } else {
         alert("Se debe seleccionar un punto de inicio.");
       }
@@ -2334,6 +2336,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.modalCalcular != null) {
         this.modalCalcular.hide();
         this.componenteDijkstra = false;
+        this.componenteGrafo = false;
       }
     }
   }
@@ -2754,10 +2757,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['ruta_selected'],
   components: {},
   data: function data() {
     return {
@@ -2765,38 +2768,23 @@ __webpack_require__.r(__webpack_exports__);
       datosDePrueba: null
     };
   },
-  mounted: function mounted() {
+  created: function created() {
+    this.lista_datos = this.ruta_selected;
+    this.mostrarGrafo(this.lista_datos);
+    console.log(this.ruta_selected);
     // this.cargarDatosDesdeJson();
   },
+
   methods: {
-    CapturarInformacion: function CapturarInformacion(event) {
-      var _this = this;
-      var file = event.target.files[0];
-      if (file) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          try {
-            _this.datosDePrueba = JSON.parse(reader.result);
-            console.log("Datos del archivo JSON: ", _this.datosDePrueba);
-            _this.lista_datos = _this.datosDePrueba;
-            // console.log("Datos del archivo JSON: ", this.lista_datos);
-          } catch (error) {
-            console.error('Error en JSON', error);
-          }
-        };
-        reader.readAsText(file);
-      }
-    },
     mostrarGrafo: function mostrarGrafo(lista_datos) {
-      console.log(this.datosDePrueba);
-      console.log("joker");
-      if (this.datosDePrueba) {
-        // // Funciones para el arrastre de nodos
-        // function dragStarted(event, d) {
-        //   if (!event.active) simulation.alphaTarget(0.3).restart();
-        //   d.fx = d.x;
-        //   d.fy = d.y;
-        // }
+      console.log("Texto prueba: ", lista_datos);
+      if (lista_datos) {
+        // Funciones para el arrastre de nodos
+        var dragStarted = function dragStarted(event, d) {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        };
         var dragged = function dragged(event, d) {
           d.fx = event.x;
           d.fy = event.y;
@@ -2806,15 +2794,16 @@ __webpack_require__.r(__webpack_exports__);
           d.fx = null;
           d.fy = null;
         };
-        console.log('Entro en mostrar grafo');
-        console.log('Datos antes de la creación del gráfico:', lista_datos.enlaces);
+        console.log('Entro en mostrar grafo', lista_datos);
+        // console.log('Datos antes de la creación del gráfico:', lista_datos.conexiones);
         var svg = d3__WEBPACK_IMPORTED_MODULE_0__.select('#grafo');
         var simulation = d3__WEBPACK_IMPORTED_MODULE_0__.forceSimulation(lista_datos.ubicaciones).force('charge', d3__WEBPACK_IMPORTED_MODULE_0__.forceManyBody().strength(-100)).force('link', d3__WEBPACK_IMPORTED_MODULE_0__.forceLink(lista_datos.conexiones).id(function (d) {
           return d.id;
         }).distance(100)).force('center', d3__WEBPACK_IMPORTED_MODULE_0__.forceCenter(250, 150));
+
         // Crea los enlaces
         var enlaces = svg.selectAll('line').data(lista_datos.conexiones).enter().append('line').attr('stroke', 'gray');
-        console.log(lista_datos);
+
         // Crea los nodos
         var nodos = svg.selectAll('circle').data(lista_datos.ubicaciones).enter().append('circle').attr('r', 20).attr('fill', 'red');
 
@@ -2825,7 +2814,7 @@ __webpack_require__.r(__webpack_exports__);
         //   .on('end', dragEnded)
         // );
 
-        // Actualiza la posición de los elementos en cada iteración de la simulación
+        //Actualiza la posición de los elementos en cada iteración de la simulación
         simulation.on('tick', function () {
           enlaces.attr('x1', function (d) {
             return d.source.x;
@@ -2837,21 +2826,16 @@ __webpack_require__.r(__webpack_exports__);
             return d.target.y;
           });
           nodos.attr('cx', function (d) {
-            return d.x;
-          }).attr('cy', function (d) {
-            return d.y;
-          });
+            return Math.max(20, Math.min(480, d.x));
+          }) // Limita las coordenadas X dentro del SVG
+          .attr('cy', function (d) {
+            return Math.max(20, Math.min(280, d.y));
+          }); // Limita las coordenadas Y dentro del SVG
         });
       } else {
         console.warn('Los datos desde JSON no han sido cargados');
       }
-    } // cargarDatosDesdeJson(){
-    // 	fetch('ubicaciones.json')
-    // 		.then(response => response.json())
-    // 		.then(data => {
-    // 			this.datosDesdeJson = data;
-    // 		});
-    // }
+    }
   }
 });
 
@@ -3239,6 +3223,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         this.modalCalcular.show();
         this.componenteDijkstra = true;
+        this.componenteGrafo = true;
       } else {
         alert("Se debe seleccionar un punto de inicio.");
       }
@@ -3247,6 +3232,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.modalCalcular != null) {
         this.modalCalcular.hide();
         this.componenteDijkstra = false;
+        this.componenteGrafo = false;
       }
     },
     registrarUbicacion: function registrarUbicacion() {
@@ -3321,34 +3307,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     mostrarDatosUbicacion: function mostrarDatosUbicacion(ubicacion) {
       this.ubicacionModificar = ubicacion;
-<<<<<<< HEAD
-    },
-    cargarUbicaciones: function cargarUbicaciones() {
-      var _this = this;
-      console.log(this.ruta_selected.id);
-      axios.get("/cargarUbicaciones/".concat(this.ruta_selected.id)).then(function (resp) {
-        console.log('Datos cargados');
-        console.log(resp.data);
-        _this.listaUbicaciones = resp.data.ubicacion;
-      })["catch"](function (error) {
-        console.log("No se cargaron los datos");
-        console.log(error);
-        console.log(error.response);
-      });
-    },
-    cargarConexiones: function cargarConexiones() {
-      var _this2 = this;
-      axios.get('/cargarConexiones').then(function (resp) {
-        console.log('Datos cargados');
-        console.log(resp.data.conexion);
-        _this2.listaConexiones = resp.data.conexion;
-      })["catch"](function (error) {
-        console.log("No se cargaron los datos");
-        console.log(error);
-        console.log(error.response);
-      });
-=======
->>>>>>> origin/dev2
     }
   }
 });
@@ -21959,7 +21917,7 @@ var render = function () {
               _c("div", { staticClass: "col-12 m-0 p-0 row h-100" }, [
                 _c(
                   "div",
-                  { staticClass: "col-5 m-0 p-0 h-100" },
+                  { staticClass: "col-12 m-0 p-0 h-100" },
                   [
                     _vm.componenteDijkstra
                       ? _c("dijkstra-component", {
@@ -21969,10 +21927,6 @@ var render = function () {
                   ],
                   1
                 ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col m-0 p-0 h-100" }, [
-                  _vm._v("\n\t\t        \t\t\tDIBUJO GRAFO\n\t\t\t    \t\t"),
-                ]),
               ]),
             ]),
             _vm._v(" "),
@@ -22359,25 +22313,9 @@ var render = function () {
   return _c("section", [
     _c("div", [
       _c("form", [
-        _c("input", {
-          attrs: { type: "file" },
-          on: { change: _vm.CapturarInformacion },
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            attrs: { type: "button" },
-            on: {
-              click: function ($event) {
-                return _vm.mostrarGrafo(_vm.lista_datos)
-              },
-            },
-          },
-          [_vm._v("Mostrar")]
-        ),
-        _vm._v(" "),
         _c("svg", { attrs: { id: "grafo", width: "400", height: "400" } }),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "button" } }),
       ]),
     ]),
   ])
