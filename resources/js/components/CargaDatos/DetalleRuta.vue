@@ -109,7 +109,7 @@
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			    </div>
 			    <div class="modal-body">
-		        
+		        	
 		      	</div>
 		      	<div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -125,6 +125,7 @@
 	</div>
 </template>
 <script>
+	
 	export default{
 		props: [ 'ruta' ],
 		components: {
@@ -152,87 +153,8 @@
 			this.ruta_selected = this.ruta;
 		},
 		methods:{
-			calcularDistancias(grafoJSON){
-				this.nodoInicio = this.ruta_selected.inicio;
-				console.log(grafoJSON);
-				const ubicaciones = this.grafoJSON.ubicaciones;
-				const conexiones = this.grafoJSON.conexiones;
-
-				const distanciasMinimas = {};
-
-
-
-				ubicaciones.forEach(ubicacion => {
-					distanciasMinimas[ubicacion] = Infinity;
-				});
-
-				distanciasMinimas[this.nodoInicio];
-
-				const previos = {};
-
-				ubicaciones.forEach( ubicacion => {
-					previos[ubicacion] = null;
-				});
-
-				function encontrarUbicacionMinima(noVisitados){
-					let nodoMinimo = null;
-					noVisitados.forEach(ubicacion => {
-						if(nodoMinimo == null || distanciasMinimas[ubicacion] < distanciasMinimas[nodoMinimo]){
-							nodoMinimo = ubicacion;
-						}
-					});
-					return nodoMinimo;
-				}
-
-				const nodosNoVisitados = [...ubicaciones];
-
-				while (nodosNoVisitados.length > 0) {
-				    // Encuentra el nodo con la distancia mínima no visitada
-				    const nodoActual = encontrarUbicacionMinima(nodosNoVisitados);
-
-				    // Elimina el nodo actual de la lista de nodos no visitados
-				    nodosNoVisitados.splice(nodosNoVisitados.indexOf(nodoActual), 1);
-
-				    // Encuentra las conexiones del nodo actual
-				    const conexionesNodoActual = conexiones.filter(conexion => conexion.origen === nodoActual);
-
-				    conexionesNodoActual.forEach(conexion => {
-				      const distanciaTotal = distanciasMinimas[nodoActual] + parseInt(conexion.peso);
-
-				      if (distanciaTotal < distanciasMinimas[conexion.destino]) {
-				        distanciasMinimas[conexion.destino] = distanciaTotal;
-				        previos[conexion.destino] = nodoActual;
-      					}	
-    				});
-  				}
-
-  				const resultados = {
-				    distanciasMinimas: distanciasMinimas,
-				    rutas: {}
-			  	};
-
-			  	ubicaciones.forEach(ubicacion => {
-				    if (ubicacion !== this.nodoInicio) {
-				      const ruta = [];
-				      let nodoActual = ubicacion;
-
-				      while (nodoActual !== null) {
-				        ruta.unshift(nodoActual);
-				        nodoActual = previos[nodoActual];
-				      }
-
-				      resultados.rutas[ubicacion] = ruta;
-				    }
-				  });
-
-				  return resultados;
-
-				  console.log("Distancias minimas: ", resultados.distanciasMinimas);
-				  console.log("Rutas: ", resultados.rutas );
-			},
-			mostrar(){
-				console.log(this.ruta_selected.inicio);
-			}
+			
+			
 			
 		}
 	}

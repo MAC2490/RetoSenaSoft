@@ -7,13 +7,19 @@
 			<div class="col-7 mt-3">
 				<a class="col-12 btn btn-outline-primary" href="RegistroRutas">MODULO REGISTRO DE RUTAS</a>
 			</div>
+			<div class="col-7 mt-3">
+				<vista-grafo></vista-grafo>
+			 </div>
 		</div>
 	</div>
 </template>
 <script>
+
+	import Index from './Index.vue';
+
 	export default{
 		components: {
-			
+			'vista-grafo': Index,
 		},
 		data(){
 			return{

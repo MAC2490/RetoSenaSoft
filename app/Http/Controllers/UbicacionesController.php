@@ -17,4 +17,15 @@ class UbicacionesController extends Controller
 
         return response()->json($ubicacion);
     }
+
+    public function cargarUbicaciones(){
+
+        $ubicacion = Ubicacione::get();
+        $data = [
+            'estado' => true,
+            'ubicacion' => $ubicacion
+        ];
+
+        return response()->json($data);
+    }
 }

@@ -17,5 +17,15 @@ class ConexionController extends Controller
 		return response()->json($request);
 	}
 
+
+	public function cargarConexiones(){
+        $conexion = Conexione::get();
+        $data = [
+            'estado' => true,
+            'conexion' => $conexion 
+        ];
+
+        return response()->json($data);
+    }
 	
 }

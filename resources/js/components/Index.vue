@@ -52,28 +52,28 @@
 				if(this.datosDePrueba){
 
 					console.log('Entro en mostrar grafo');
-					console.log('Datos antes de la creación del gráfico:', lista_datos);
+					console.log('Datos antes de la creación del gráfico:', lista_datos.enlaces);
 					const svg = d3.select('#grafo');
 
 					
-					const simulation = d3.forceSimulation(lista_datos.data.nodos)
+					const simulation = d3.forceSimulation(lista_datos.ubicaciones)
 					  .force('charge', d3.forceManyBody().strength(-100))
-					  .force('link', d3.forceLink(lista_datos.data.enlaces).id(d => d.id).distance(100))
+					  .force('link', d3.forceLink(lista_datos.conexiones).id(d => d.id).distance(100))
 					  .force('center', d3.forceCenter(250, 150));
 					// Crea los enlaces
 					const enlaces = svg.selectAll('line')
-					  .data(lista_datos.data.enlaces)
+					  .data(lista_datos.conexiones)
 					  .enter()
 					  .append('line')
 					  .attr('stroke', 'gray');
 					console.log(lista_datos)
 					// Crea los nodos
 					const nodos = svg.selectAll('circle')
-					  .data(lista_datos.data.nodos)
+					  .data(lista_datos.ubicaciones)
 					  .enter()
 					  .append('circle')
 					  .attr('r', 20)
-					  .attr('fill', 'blue');
+					  .attr('fill', 'red');
 					
 					// Agrega eventos de arrastre a los nodos
 					nodos.call(d3.drag()

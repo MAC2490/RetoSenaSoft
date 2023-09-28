@@ -40,7 +40,7 @@
 						this.ruta = res.data;
 						this.nombreRuta = "";
 					}).catch(error => {
-						console.log("Erro en axios");
+						console.log("Error en axios");
 						console.log(error);
 						console.log(error.response);
 					});	
